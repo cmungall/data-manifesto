@@ -1,0 +1,319 @@
+{
+   "classes" : {
+      "HasAliases" : {
+         "attributes" : {
+            "aliases" : {
+               "multivalued" : 1,
+               "exact_mappings" : [
+                  "schema:alternateName"
+               ]
+            }
+         },
+         "description" : "A mixin applied to any class that can have aliases/alternateNames",
+         "mixin" : 1
+      },
+      "Concept" : {
+         "is_a" : "NamedThing"
+      },
+      "Container" : {
+         "slots" : [
+            "persons",
+            "organizations"
+         ],
+         "tree_root" : 1
+      },
+      "Person" : {
+         "class_uri" : "schema:Person",
+         "description" : "A person (alive, dead, undead, or fictional).",
+         "is_a" : "NamedThing",
+         "slots" : [
+            "primary_email",
+            "birth_date",
+            "age_in_years",
+            "gender",
+            "current_address",
+            "has_employment_history",
+            "has_familial_relationships",
+            "has_medical_history"
+         ],
+         "mixins" : [
+            "HasAliases"
+         ],
+         "slot_usage" : {
+            "primary_email" : {
+               "pattern" : "^\\S+@[\\S+\\.]+\\S+"
+            }
+         }
+      },
+      "EmploymentEvent" : {
+         "slots" : [
+            "employed_at"
+         ],
+         "is_a" : "Event"
+      },
+      "Address" : {
+         "class_uri" : "schema:PostalAddress",
+         "slots" : [
+            "street",
+            "city",
+            "postal_code"
+         ]
+      },
+      "ProcedureConcept" : {
+         "is_a" : "Concept"
+      },
+      "DiagnosisConcept" : {
+         "is_a" : "Concept"
+      },
+      "Place" : {
+         "mixins" : [
+            "HasAliases"
+         ],
+         "slots" : [
+            "id",
+            "name"
+         ]
+      },
+      "FamilialRelationship" : {
+         "slot_usage" : {
+            "type" : {
+               "range" : "FamilialRelationshipType",
+               "required" : 1
+            },
+            "related to" : {
+               "range" : "Person",
+               "required" : 1
+            }
+         },
+         "is_a" : "Relationship"
+      },
+      "Event" : {
+         "slots" : [
+            "started_at_time",
+            "ended_at_time",
+            "duration",
+            "is_current"
+         ],
+         "close_mappings" : [
+            "schema:Event"
+         ]
+      },
+      "MedicalEvent" : {
+         "slots" : [
+            "in_location",
+            "diagnosis",
+            "procedure"
+         ],
+         "is_a" : "Event"
+      },
+      "Relationship" : {
+         "slots" : [
+            "started_at_time",
+            "ended_at_time",
+            "related_to",
+            "type"
+         ]
+      },
+      "NamedThing" : {
+         "close_mappings" : [
+            "schema:Thing"
+         ],
+         "description" : "A generic grouping for any identifiable entity",
+         "slots" : [
+            "id",
+            "name",
+            "description",
+            "image"
+         ]
+      },
+      "WithLocation" : {
+         "mixin" : 1,
+         "slots" : [
+            "in_location"
+         ]
+      },
+      "Organization" : {
+         "class_uri" : "schema:Organization",
+         "description" : "An organization such as a company or university",
+         "slots" : [
+            "mission_statement",
+            "founding_date",
+            "founding_location"
+         ],
+         "is_a" : "NamedThing",
+         "mixins" : [
+            "HasAliases"
+         ]
+      }
+   },
+   "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
+   "slots" : {
+      "ended_at_time" : {
+         "slot_uri" : "prov:endedAtTime",
+         "range" : "date"
+      },
+      "postal_code" : {
+         "range" : "string"
+      },
+      "description" : {
+         "slot_uri" : "schema:description"
+      },
+      "founding_date" : null,
+      "founding_location" : {
+         "range" : "Place"
+      },
+      "id" : {
+         "identifier" : 1,
+         "slot_uri" : "schema:identifier"
+      },
+      "procedure" : {
+         "inlined" : 1,
+         "range" : "ProcedureConcept"
+      },
+      "diagnosis" : {
+         "range" : "DiagnosisConcept",
+         "inlined" : 1
+      },
+      "has_medical_history" : {
+         "multivalued" : 1,
+         "range" : "MedicalEvent",
+         "inlined_as_list" : 1
+      },
+      "related_to" : null,
+      "persons" : {
+         "inlined_as_list" : 1,
+         "multivalued" : 1,
+         "range" : "Person",
+         "inlined" : 1
+      },
+      "organizations" : {
+         "range" : "Organization",
+         "multivalued" : 1,
+         "inlined" : 1,
+         "inlined_as_list" : 1
+      },
+      "has_familial_relationships" : {
+         "inlined_as_list" : 1,
+         "range" : "FamilialRelationship",
+         "multivalued" : 1
+      },
+      "birth_date" : {
+         "slot_uri" : "schema:birthDate"
+      },
+      "street" : null,
+      "image" : {
+         "slot_uri" : "schema:image"
+      },
+      "has_employment_history" : {
+         "inlined_as_list" : 1,
+         "range" : "EmploymentEvent",
+         "multivalued" : 1
+      },
+      "city" : null,
+      "duration" : {
+         "range" : "float"
+      },
+      "in_location" : {
+         "range" : "Place"
+      },
+      "started_at_time" : {
+         "slot_uri" : "prov:startedAtTime",
+         "range" : "date"
+      },
+      "age_in_years" : {
+         "maximum_value" : 999,
+         "minimum_value" : 0,
+         "range" : "integer"
+      },
+      "mission_statement" : null,
+      "name" : {
+         "slot_uri" : "schema:name"
+      },
+      "gender" : {
+         "slot_uri" : "schema:gender",
+         "range" : "GenderType"
+      },
+      "primary_email" : {
+         "slot_uri" : "schema:email"
+      },
+      "current_address" : {
+         "range" : "Address",
+         "description" : "The address at which a person currently lives"
+      },
+      "is_current" : {
+         "range" : "boolean"
+      },
+      "type" : null,
+      "employed_at" : {
+         "range" : "Organization"
+      }
+   },
+   "default_range" : "string",
+   "enums" : {
+      "DiagnosisType" : null,
+      "GenderType" : {
+         "permissible_values" : {
+            "nonbinary woman" : {
+               "meaning" : "GSSO:009253"
+            },
+            "cisgender woman" : {
+               "meaning" : "GSSO:000385"
+            },
+            "transgender woman" : {
+               "meaning" : "GSSO:000384"
+            },
+            "cisgender man" : {
+               "meaning" : "GSSO:000371"
+            },
+            "transgender man" : {
+               "meaning" : "GSSO:000372"
+            },
+            "nonbinary man" : {
+               "meaning" : "GSSO:009254"
+            }
+         }
+      },
+      "FamilialRelationshipType" : {
+         "permissible_values" : {
+            "CHILD_OF" : {
+               "meaning" : "famrel:01"
+            },
+            "PARENT_OF" : {
+               "meaning" : "famrel:02"
+            },
+            "SIBLING_OF" : {
+               "meaning" : "famrel:01"
+            }
+         }
+      }
+   },
+   "imports" : [
+      "linkml:types"
+   ],
+   "prefixes" : {
+      "personinfo" : "https://w3id.org/linkml/examples/personinfo/",
+      "linkml" : "https://w3id.org/linkml/",
+      "GEO" : "http://example.org/geoloc/",
+      "ROR" : "http://example.org/ror/",
+      "famrel" : "https://example.org/FamilialRelations#",
+      "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+      "GSSO" : "http://purl.obolibrary.org/obo/GSSO_",
+      "schema" : "http://schema.org/",
+      "CODE" : "http://example.org/code/",
+      "P" : "http://example.org/P/",
+      "prov" : "http://www.w3.org/ns/prov#"
+   },
+   "name" : "personinfo",
+   "id" : "https://w3id.org/linkml/examples/personinfo",
+   "description" : "Information about people, based on [schema.org](http://schema.org)",
+   "emit_prefixes" : [
+      "rdf",
+      "rdfs",
+      "xsd",
+      "skos"
+   ],
+   "default_prefix" : "personinfo",
+   "default_curi_maps" : [
+      "semweb_context"
+   ]
+}

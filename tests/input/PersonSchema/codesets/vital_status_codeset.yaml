@@ -1,0 +1,9 @@
+resourceID: PATO-VITAL-STATUS
+about: http://purl.obolibrary.org/obo/pato.owl
+include:
+  namespace: http://purl.obolibrary.org/obo/pato/vital-status
+  codes:
+    - PATO:0001421  ## alive
+    - PATO:0001422  ## dead
+
+  

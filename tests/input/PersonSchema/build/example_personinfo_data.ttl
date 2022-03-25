@@ -1,0 +1,32 @@
+@prefix ns1: <https://w3id.org/linkml/examples/> .
+@prefix ns2: <http://schema.org/> .
+@prefix ns3: <http://www.w3.org/ns/prov#> .
+
+<CODE:D0001> ns2:name "headache" .
+
+<CODE:P0001> ns2:name "trepanation" .
+
+<P:002> ns2:name "joe schmoe" ;
+    ns1:personinfocurrent_address [ ns1:personinfocity "foo city" ;
+            ns1:personinfostreet "1 foo street" ] ;
+    ns1:personinfohas_employment_history [ ns3:startedAtTime "2019-01-01" ;
+            ns1:personinfoemployed_at <ROR:1> ;
+            ns1:personinfois_current "true" ] ;
+    ns1:personinfohas_familial_relationships [ ns1:personinforelated_to <P:001> ;
+            ns1:personinfotype "SIBLING_OF" ] ;
+    ns1:personinfohas_medical_history [ ns3:startedAtTime "2019-01-01" ;
+            ns1:personinfodiagnosis <CODE:D0001> ;
+            ns1:personinfoin_location <GEO:1234> ;
+            ns1:personinfoprocedure <CODE:P0001> ] .
+
+<P:001> ns2:email "fred.bloggs@example.com" ;
+    ns2:name "fred bloggs" ;
+    ns1:personinfoage_in_years "33" .
+
+<ROR:1> ns2:name "foo" .
+
+[] a ns1:personinfodict ;
+    ns1:personinfoorganizations <ROR:1> ;
+    ns1:personinfopersons <P:001>,
+        <P:002> .
+

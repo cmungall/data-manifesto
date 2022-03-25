@@ -1,0 +1,54 @@
+{
+  "persons": [
+    {
+      "id": "P:001",
+      "name": "fred bloggs",
+      "primary_email": "fred.bloggs@example.com",
+      "age_in_years": 33
+    },
+    {
+      "id": "P:002",
+      "name": "joe schmoe",
+      "current_address": [
+        {
+          "street": "1 foo street",
+          "city": "foo city"
+        }
+      ],
+      "has_employment_history": [
+        {
+          "started_at_time": "2019-01-01",
+          "is_current": true,
+          "employed_at": "ROR:1"
+        }
+      ],
+      "has_familial_relationships": [
+        {
+          "related_to": "P:001",
+          "type": "SIBLING_OF"
+        }
+      ],
+      "has_medical_history": [
+        {
+          "started_at_time": "2019-01-01",
+          "in_location": "GEO:1234",
+          "diagnosis": {
+            "id": "CODE:D0001",
+            "name": "headache"
+          },
+          "procedure": {
+            "id": "CODE:P0001",
+            "name": "trepanation"
+          }
+        }
+      ]
+    }
+  ],
+  "organizations": [
+    {
+      "id": "ROR:1",
+      "name": "foo"
+    }
+  ],
+  "@type": "Container"
+}
