@@ -1,0 +1,147 @@
+{
+   "_comments": "Auto generated from data_manifesto.yaml by jsonldcontextgen.py version: 0.1.1\n    Generation date: 2022-03-25T16:58:59\n    Schema: datasets\n    metamodel version: 1.7.0\n    model version: None\n    \n    id: https://w3id.org/linkml/data-manifesto\n    description: A datamodel for datasets\n    license: https://creativecommons.org/publicdomain/zero/1.0/\n    ",
+   "@context": {
+      "bald": "https://www.opengis.net/def/binary-array-ld/",
+      "bibo": "http://purl.org/ontology/bibo/",
+      "csvw": "http://www.w3.org/ns/csvw#",
+      "datasets": "https://w3id.org/linkml/manifesto/",
+      "dcat": "http://www.w3.org/ns/dcat#",
+      "dcterms": "http://purl.org/dc/terms/",
+      "file": "file:///",
+      "formats": "http://www.w3.org/ns/formats/",
+      "frictionless": "https://specs.frictionlessdata.io/",
+      "linkml": "https://w3id.org/linkml/",
+      "mediatypes": "https://www.iana.org/assignments/media-types/",
+      "oslc": "http://open-services.net/ns/core#",
+      "owl": "http://www.w3.org/2002/07/owl#",
+      "pav": "http://purl.org/pav/",
+      "prov": "http://www.w3.org/ns/prov#",
+      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+      "schema": "http://schema.org/",
+      "sh": "https://w3id.org/shacl/",
+      "skos": "http://www.w3.org/2004/02/skos/core#",
+      "void": "http://rdfs.org/ns/void#",
+      "xsd": "http://www.w3.org/2001/XMLSchema#",
+      "@vocab": "https://w3id.org/linkml/manifesto/",
+      "bytes": {
+         "@type": "xsd:integer",
+         "@id": "dcat:byteSize"
+      },
+      "compression": {
+         "@context": {
+            "@vocab": "@null",
+            "text": "skos:notation",
+            "description": "skos:prefLabel",
+            "meaning": "@id"
+         }
+      },
+      "conforms_to": {
+         "@type": "@id",
+         "@id": "dcterms:conformsTo"
+      },
+      "conforms_to_class": {
+         "@type": "@id"
+      },
+      "conforms_to_schema": {
+         "@type": "@id"
+      },
+      "created_by": {
+         "@type": "@id",
+         "@id": "pav:createdBy"
+      },
+      "created_on": {
+         "@type": "xsd:dateTime",
+         "@id": "pav:createdOn"
+      },
+      "description": {
+         "@id": "dcterms:description"
+      },
+      "dialect": {
+         "@id": "csvw:dialect"
+      },
+      "download_url": {
+         "@type": "@id",
+         "@id": "dcat:downloadURL"
+      },
+      "format": {
+         "@id": "dcterms:format"
+      },
+      "issued": {
+         "@type": "xsd:dateTime",
+         "@id": "dcterms:issued"
+      },
+      "keywords": {
+         "@id": "dcat:keyword"
+      },
+      "last_updated_on": {
+         "@type": "xsd:dateTime",
+         "@id": "pav:lastUpdatedOn"
+      },
+      "license": {
+         "@id": "dcterms:license"
+      },
+      "media_type": {
+         "@id": "dcat:mediaType"
+      },
+      "modified_by": {
+         "@type": "@id",
+         "@id": "oslc:modifiedBy"
+      },
+      "name": "@id",
+      "page": {
+         "@id": "dcat:landingPage"
+      },
+      "profile": {
+         "@type": "@id"
+      },
+      "publisher": {
+         "@type": "@id",
+         "@id": "dcterms:publisher"
+      },
+      "resources": {
+         "@type": "@id",
+         "@id": "dcat:distribution"
+      },
+      "postconditions": {
+         "@type": "@id"
+      },
+      "preconditions": {
+         "@type": "@id"
+      },
+      "rules": {
+         "@type": "@id"
+      },
+      "status": {
+         "@type": "@id",
+         "@id": "bibo:status"
+      },
+      "test_roles": {
+         "@context": {
+            "@vocab": "@null",
+            "text": "skos:notation",
+            "description": "skos:prefLabel",
+            "meaning": "@id"
+         }
+      },
+      "themes": {
+         "@type": "@id",
+         "@id": "dcat:theme"
+      },
+      "title": {
+         "@id": "dcterms:title"
+      },
+      "version": {
+         "@id": "pav:version"
+      },
+      "was_derived_from": {
+         "@id": "prov:wasDerivedFrom"
+      },
+      "DataPackage": {
+         "@id": "void:Dataset"
+      },
+      "DataResource": {
+         "@id": "dcat:Distribution"
+      }
+   }
+}

@@ -1,0 +1,387 @@
+{
+   "$defs": {
+      "CompressionTypeEnum": {
+         "description": "",
+         "enum": [
+            "GZIP",
+            "ZIP",
+            "BGZIP"
+         ],
+         "title": "CompressionTypeEnum",
+         "type": "string"
+      },
+      "DataPackage": {
+         "additionalProperties": false,
+         "description": "A collection of data resources",
+         "properties": {
+            "compression": {
+               "$ref": "#/$defs/CompressionTypeEnum"
+            },
+            "conforms_to": {
+               "type": "string"
+            },
+            "conforms_to_class": {
+               "description": "class in schema which the data object instantiates",
+               "type": "string"
+            },
+            "conforms_to_schema": {
+               "type": "string"
+            },
+            "created_by": {
+               "description": "agent that created the element",
+               "type": "string"
+            },
+            "created_on": {
+               "description": "time at which the element was created",
+               "format": "date-time",
+               "type": "string"
+            },
+            "description": {
+               "description": "human readable description of the information",
+               "type": "string"
+            },
+            "download_url": {
+               "type": "string"
+            },
+            "issued": {
+               "format": "date-time",
+               "type": "string"
+            },
+            "keywords": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "language": {
+               "description": "language in which the information is expressed",
+               "type": "string"
+            },
+            "license": {
+               "description": "license for the data",
+               "type": "string"
+            },
+            "name": {
+               "description": "the unique name of the dataset",
+               "type": "string"
+            },
+            "page": {
+               "type": "string"
+            },
+            "publisher": {
+               "type": "string"
+            },
+            "resources": {
+               "items": {
+                  "$ref": "#/$defs/DataResource"
+               },
+               "type": "array"
+            },
+            "rules": {
+               "items": {
+                  "$ref": "#/$defs/Rule"
+               },
+               "type": "array"
+            },
+            "test_roles": {
+               "items": {
+                  "$ref": "#/$defs/TestRole"
+               },
+               "type": "array"
+            },
+            "title": {
+               "description": "the official title of the element",
+               "type": "string"
+            },
+            "version": {
+               "description": "particular version of schema",
+               "type": "string"
+            },
+            "was_derived_from": {
+               "description": "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en",
+               "type": "string"
+            }
+         },
+         "required": [
+            "name"
+         ],
+         "title": "DataPackage",
+         "type": "object"
+      },
+      "DataResource": {
+         "additionalProperties": false,
+         "description": "An individual file or table",
+         "properties": {
+            "bytes": {
+               "type": "integer"
+            },
+            "compression": {
+               "$ref": "#/$defs/CompressionTypeEnum"
+            },
+            "conforms_to": {
+               "type": "string"
+            },
+            "conforms_to_class": {
+               "description": "class in schema which the data object instantiates",
+               "type": "string"
+            },
+            "conforms_to_schema": {
+               "type": "string"
+            },
+            "created_by": {
+               "description": "agent that created the element",
+               "type": "string"
+            },
+            "created_on": {
+               "description": "time at which the element was created",
+               "format": "date-time",
+               "type": "string"
+            },
+            "description": {
+               "description": "human readable description of the information",
+               "type": "string"
+            },
+            "dialect": {
+               "type": "string"
+            },
+            "download_url": {
+               "type": "string"
+            },
+            "encoding": {
+               "type": "string"
+            },
+            "format": {
+               "type": "string"
+            },
+            "hash": {
+               "type": "string"
+            },
+            "issued": {
+               "format": "date-time",
+               "type": "string"
+            },
+            "keywords": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
+            "language": {
+               "description": "language in which the information is expressed",
+               "type": "string"
+            },
+            "license": {
+               "description": "license for the data",
+               "type": "string"
+            },
+            "md5": {
+               "type": "string"
+            },
+            "media_type": {
+               "type": "string"
+            },
+            "name": {
+               "description": "the unique name of the dataset",
+               "type": "string"
+            },
+            "page": {
+               "type": "string"
+            },
+            "path": {
+               "type": "string"
+            },
+            "publisher": {
+               "type": "string"
+            },
+            "sha256": {
+               "type": "string"
+            },
+            "test_roles": {
+               "items": {
+                  "$ref": "#/$defs/TestRole"
+               },
+               "type": "array"
+            },
+            "title": {
+               "description": "the official title of the element",
+               "type": "string"
+            },
+            "version": {
+               "description": "particular version of schema",
+               "type": "string"
+            },
+            "was_derived_from": {
+               "description": "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en",
+               "type": "string"
+            }
+         },
+         "required": [
+            "name"
+         ],
+         "title": "DataResource",
+         "type": "object"
+      },
+      "DistributionLevel": {
+         "description": "",
+         "enum": [
+            "LatestVersion",
+            "SpecificVersion"
+         ],
+         "title": "DistributionLevel",
+         "type": "string"
+      },
+      "FormatDialect": {
+         "additionalProperties": false,
+         "description": "Additional format information for a file",
+         "properties": {
+            "comment_prefix": {
+               "type": "string"
+            },
+            "delimiter": {
+               "type": "string"
+            },
+            "double_quote": {
+               "type": "string"
+            },
+            "header": {
+               "type": "string"
+            },
+            "quote_char": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "FormatDialect",
+         "type": "object"
+      },
+      "FormatEnum": {
+         "description": "",
+         "enum": [
+            "JSON-LD",
+            "N3",
+            "N-Triples",
+            "N-Quads",
+            "LD Patch",
+            "Microdata",
+            "OWL XML Serialization",
+            "OWL Functional Syntax",
+            "OWL Manchester Syntax",
+            "POWDER",
+            "POWDER-S",
+            "PROV-N",
+            "PROV-XML",
+            "RDFa",
+            "RDF/JSON",
+            "RDF/XML",
+            "RIF XML Syntax",
+            "SPARQL Results in XML",
+            "SPARQL Results in JSON",
+            "SPARQL Results in CSV",
+            "SPARQL Results in TSV",
+            "Turtle",
+            "TriG",
+            "YAML",
+            "JSON",
+            "Markdown"
+         ],
+         "title": "FormatEnum",
+         "type": "string"
+      },
+      "MediaTypeEnum": {
+         "description": "",
+         "enum": [
+            "csv",
+            "rdf-xml"
+         ],
+         "title": "MediaTypeEnum",
+         "type": "string"
+      },
+      "Rule": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "postconditions": {
+               "items": {
+                  "$ref": "#/$defs/RulePostcondition"
+               },
+               "type": "array"
+            },
+            "preconditions": {
+               "items": {
+                  "$ref": "#/$defs/RulePrecondition"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "Rule",
+         "type": "object"
+      },
+      "RulePostcondition": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "compression": {
+               "$ref": "#/$defs/CompressionTypeEnum"
+            },
+            "conforms_to": {
+               "type": "string"
+            },
+            "format": {
+               "type": "string"
+            },
+            "keywords": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            }
+         },
+         "required": [],
+         "title": "RulePostcondition",
+         "type": "object"
+      },
+      "RulePrecondition": {
+         "additionalProperties": false,
+         "description": "",
+         "properties": {
+            "basename_regexp": {
+               "type": "string"
+            },
+            "dirname_regexp": {
+               "type": "string"
+            },
+            "final_suffix": {
+               "type": "string"
+            },
+            "has_suffix": {
+               "type": "string"
+            },
+            "path_regexp": {
+               "type": "string"
+            }
+         },
+         "required": [],
+         "title": "RulePrecondition",
+         "type": "object"
+      },
+      "TestRole": {
+         "description": "",
+         "enum": [
+            "Example",
+            "CounterExample"
+         ],
+         "title": "TestRole",
+         "type": "string"
+      }
+   },
+   "$id": "https://w3id.org/linkml/data-manifesto",
+   "$schema": "http://json-schema.org/draft-07/schema#",
+   "additionalProperties": true,
+   "metamodel_version": "1.7.0",
+   "properties": {},
+   "required": [],
+   "title": "datasets",
+   "type": "object",
+   "version": null
+}

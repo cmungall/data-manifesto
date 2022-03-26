@@ -1,0 +1,86 @@
+// A collection of data resources
+message DataPackage
+ {
+  name String = 1
+  optional downloadUrl Uri = 2
+  optional license String = 3
+  optional title String = 4
+  optional description String = 5
+  optional conformsTo Uriorcurie = 6
+  optional conformsToSchema Uriorcurie = 7
+  optional conformsToClass Uriorcurie = 8
+  optional version String = 9
+  optional language String = 10
+  optional publisher Uriorcurie = 11
+  repeated keywords String = 12
+  optional issued Datetime = 13
+  optional createdBy Uriorcurie = 14
+  optional createdOn Datetime = 15
+  optional compression CompressionTypeEnum = 16
+  optional wasDerivedFrom String = 17
+  optional page String = 18
+  repeated testRoles TestRole = 19
+  repeated resources DataResource = 20
+  repeated rules Rule = 21
+ }
+// An individual file or table
+message DataResource
+ {
+  name String = 1
+  optional downloadUrl Uri = 2
+  optional license String = 3
+  optional conformsTo Uriorcurie = 4
+  optional conformsToSchema Uriorcurie = 5
+  optional conformsToClass Uriorcurie = 6
+  optional version String = 7
+  optional language String = 8
+  optional publisher Uriorcurie = 9
+  repeated keywords String = 10
+  optional issued Datetime = 11
+  optional createdBy Uriorcurie = 12
+  optional createdOn Datetime = 13
+  optional compression CompressionTypeEnum = 14
+  optional wasDerivedFrom String = 15
+  optional page String = 16
+  repeated testRoles TestRole = 17
+  optional path String = 18
+  optional title String = 19
+  optional description String = 20
+  optional format String = 21
+  optional mediaType String = 22
+  optional encoding String = 23
+  optional bytes Integer = 24
+  optional hash String = 25
+  optional md5 String = 26
+  optional sha256 String = 27
+  optional dialect String = 28
+ }
+// Additional format information for a file
+message FormatDialect
+ {
+  optional commentPrefix String = 1
+  optional delimiter String = 2
+  optional doubleQuote String = 3
+  optional header String = 4
+  optional quoteChar String = 5
+ }
+message Rule
+ {
+  repeated preconditions RulePrecondition = 1
+  repeated postconditions RulePostcondition = 2
+ }
+message RulePostcondition
+ {
+  optional format String = 1
+  optional conformsTo Uriorcurie = 2
+  optional compression CompressionTypeEnum = 3
+  repeated keywords String = 4
+ }
+message RulePrecondition
+ {
+  optional basenameRegexp String = 1
+  optional dirnameRegexp String = 2
+  optional pathRegexp String = 3
+  optional finalSuffix String = 4
+  optional hasSuffix String = 5
+ }

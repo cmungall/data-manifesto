@@ -1,0 +1,112 @@
+type DataPackage
+  {
+    name: String!
+    downloadUrl: Uri
+    license: String
+    title: String
+    description: String
+    conformsTo: Uriorcurie
+    conformsToSchema: Uriorcurie
+    conformsToClass: Uriorcurie
+    version: String
+    language: String
+    publisher: Uriorcurie
+    keywords: [String]
+    issued: Datetime
+    createdBy: Uriorcurie
+    createdOn: Datetime
+    compression: CompressionTypeEnum
+    wasDerivedFrom: String
+    page: String
+    testRoles: [TestRole]
+    resources: [DataResource]
+    rules: [Rule]
+  }
+
+type DataResource
+  {
+    name: String!
+    downloadUrl: Uri
+    license: String
+    conformsTo: Uriorcurie
+    conformsToSchema: Uriorcurie
+    conformsToClass: Uriorcurie
+    version: String
+    language: String
+    publisher: Uriorcurie
+    keywords: [String]
+    issued: Datetime
+    createdBy: Uriorcurie
+    createdOn: Datetime
+    compression: CompressionTypeEnum
+    wasDerivedFrom: String
+    page: String
+    testRoles: [TestRole]
+    path: String
+    title: String
+    description: String
+    format: String
+    mediaType: String
+    encoding: String
+    bytes: Integer
+    hash: String
+    md5: String
+    sha256: String
+    dialect: String
+  }
+
+type FormatDialect
+  {
+    commentPrefix: String
+    delimiter: String
+    doubleQuote: String
+    header: String
+    quoteChar: String
+  }
+
+interface Information
+  {
+    name: String!
+    downloadUrl: Uri
+    license: String
+    title: String
+    description: String
+    conformsTo: Uriorcurie
+    conformsToSchema: Uriorcurie
+    conformsToClass: Uriorcurie
+    version: String
+    language: String
+    publisher: Uriorcurie
+    keywords: [String]
+    issued: Datetime
+    createdBy: Uriorcurie
+    createdOn: Datetime
+    compression: CompressionTypeEnum
+    wasDerivedFrom: String
+    page: String
+    testRoles: [TestRole]
+  }
+
+type Rule
+  {
+    preconditions: [RulePrecondition]
+    postconditions: [RulePostcondition]
+  }
+
+type RulePostcondition
+  {
+    format: String
+    conformsTo: Uriorcurie
+    compression: CompressionTypeEnum
+    keywords: [String]
+  }
+
+type RulePrecondition
+  {
+    basenameRegexp: String
+    dirnameRegexp: String
+    pathRegexp: String
+    finalSuffix: String
+    hasSuffix: String
+  }
+

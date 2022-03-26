@@ -1,0 +1,30 @@
+{
+   "bald": "https://www.opengis.net/def/binary-array-ld/",
+   "bibo": "http://purl.org/ontology/bibo/",
+   "csvw": "http://www.w3.org/ns/csvw#",
+   "datasets": "https://w3id.org/linkml/manifesto/",
+   "dcat": "http://www.w3.org/ns/dcat#",
+   "dcterms": "http://purl.org/dc/terms/",
+   "file": "file:///",
+   "formats": "http://www.w3.org/ns/formats/",
+   "frictionless": "https://specs.frictionlessdata.io/",
+   "linkml": "https://w3id.org/linkml/",
+   "mediatypes": "https://www.iana.org/assignments/media-types/",
+   "oslc": "http://open-services.net/ns/core#",
+   "owl": "http://www.w3.org/2002/07/owl#",
+   "pav": "http://purl.org/pav/",
+   "prov": "http://www.w3.org/ns/prov#",
+   "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+   "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+   "schema": "http://schema.org/",
+   "sh": "https://w3id.org/shacl/",
+   "skos": "http://www.w3.org/2004/02/skos/core#",
+   "void": "http://rdfs.org/ns/void#",
+   "xsd": "http://www.w3.org/2001/XMLSchema#",
+   "DataPackage": {
+      "@id": "void:Dataset"
+   },
+   "DataResource": {
+      "@id": "dcat:Distribution"
+   }
+}

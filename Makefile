@@ -13,4 +13,4 @@ gendoc:
 
 MKDOCS = $(RUN) mkdocs
 d-%:
-	$(MKDOCS) serve
+	$(MKDOCS) $*
