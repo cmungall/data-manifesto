@@ -68,9 +68,9 @@ class ManifestMaker:
         for suffix, fmt in [('json', 'JSON'), ('yaml', 'YAML')]:
             rules.append(Rule(preconditions=[RulePrecondition(has_suffix=suffix)],
                               postconditions=[RulePostcondition(format=fmt)]))
-        for suffix, cmp in [('gz', 'GZIP'), ('zip', 'ZIP')]:
-            rules.append(Rule(preconditions=[RulePrecondition(final_suffix=suffix)],
-                              postconditions=[RulePostcondition(compression=cmp)]))
+        #for suffix, cmp in [('gz', 'GZIP'), ('zip', 'ZIP')]:
+        #    rules.append(Rule(preconditions=[RulePrecondition(final_suffix=suffix)],
+        #                      postconditions=[RulePostcondition(compression=cmp)]))
         return rules
 
     def matches_precondition(self, pre: RulePrecondition, resource: DataResource) -> bool:
@@ -85,7 +85,7 @@ class ManifestMaker:
 
     def apply_postcondition(self, post: RulePostcondition, resource: DataResource) -> bool:
         for k, v in vars(post).items():
-            print(f'SETTING {k} = {v} // {type(v)}')
+            #print(f'SETTING {k} = {v} // {type(v)}')
             setattr(resource, k, v)
-            print(f'  SET { yaml_dumper.dumps(resource)}')
+            #print(f'  SET { yaml_dumper.dumps(resource)}')
 
