@@ -12,6 +12,8 @@ linkml-runtime = "^1.2.2"
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 linkml = "^1.2.3"
+mkdocs = "^1.2.3"
+mkdocs-material = "^8.2.7"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

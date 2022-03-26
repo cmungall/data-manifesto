@@ -1,5 +1,5 @@
 # Auto generated from data_manifesto.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-21T20:02:15
+# Generation date: 2022-03-25T16:59:04
 # Schema: datasets
 #
 # id: https://w3id.org/linkml/data-manifesto
@@ -32,6 +32,7 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+BALD = CurieNamespace('bald', 'https://www.opengis.net/def/binary-array-ld/')
 BIBO = CurieNamespace('bibo', 'http://purl.org/ontology/bibo/')
 CSVW = CurieNamespace('csvw', 'http://www.w3.org/ns/csvw#')
 DATASETS = CurieNamespace('datasets', 'https://w3id.org/linkml/manifesto/')
@@ -430,7 +431,7 @@ class CompressionTypeEnum(EnumDefinitionImpl):
 
     GZIP = PermissibleValue(text="GZIP")
     ZIP = PermissibleValue(text="ZIP")
-    BBZIP = PermissibleValue(text="BBZIP")
+    BGZIP = PermissibleValue(text="BGZIP")
 
     _defn = EnumDefinition(
         name="CompressionTypeEnum",

@@ -8,3 +8,9 @@ DEST = generated
 gen:
 	$(RUN) gen-project -d $(DEST) $(SCHEMA_ROOT) && mv $(DEST)/*.py $(SRC)/$(PROJECT)/datamodel/
 
+gendoc:
+	$(RUN) gen-doc -d docs $(SCHEMA_ROOT)
+
+MKDOCS = $(RUN) mkdocs
+d-%:
+	$(MKDOCS) serve
