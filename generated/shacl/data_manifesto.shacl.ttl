@@ -1,94 +1,16 @@
+@prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix datasets: <https://w3id.org/linkml/manifesto/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix pav: <http://purl.org/pav/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema1: <http://schema.org/> .
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-
-void:Dataset a sh:NodeShape ;
-    sh:closed true ;
-    sh:description "A collection of data resources" ;
-    sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:description "human readable description of the information" ;
-            sh:maxCount 1 ;
-            sh:order 6 ;
-            sh:path dcterms:description ],
-        [ sh:maxCount 1 ;
-            sh:order 8 ;
-            sh:path datasets:conforms_to_schema ],
-        [ sh:description "the official title of the element" ;
-            sh:maxCount 1 ;
-            sh:order 5 ;
-            sh:path dcterms:title ],
-        [ sh:description "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en" ;
-            sh:maxCount 1 ;
-            sh:order 18 ;
-            sh:path prov:wasDerivedFrom ],
-        [ sh:order 13 ;
-            sh:path dcat:keyword ],
-        [ sh:description "agent that created the element" ;
-            sh:maxCount 1 ;
-            sh:order 15 ;
-            sh:path pav:createdBy ],
-        [ sh:maxCount 1 ;
-            sh:order 14 ;
-            sh:path dcterms:issued ],
-        [ sh:description "time at which the element was created" ;
-            sh:maxCount 1 ;
-            sh:order 16 ;
-            sh:path pav:createdOn ],
-        [ sh:description "the unique name of the dataset" ;
-            sh:maxCount 1 ;
-            sh:order 2 ;
-            sh:path dcterms:identifier ],
-        [ sh:maxCount 1 ;
-            sh:order 19 ;
-            sh:path dcat:landingPage ],
-        [ sh:description "particular version of schema" ;
-            sh:maxCount 1 ;
-            sh:order 10 ;
-            sh:path pav:version ],
-        [ sh:description "license for the data" ;
-            sh:maxCount 1 ;
-            sh:order 4 ;
-            sh:path dcterms:license ],
-        [ sh:description "class in schema which the data object instantiates" ;
-            sh:maxCount 1 ;
-            sh:order 9 ;
-            sh:path datasets:conforms_to_class ],
-        [ sh:maxCount 1 ;
-            sh:order 3 ;
-            sh:path dcat:downloadURL ],
-        [ sh:maxCount 1 ;
-            sh:order 7 ;
-            sh:path dcterms:conformsTo ],
-        [ sh:description "language in which the information is expressed" ;
-            sh:maxCount 1 ;
-            sh:order 11 ;
-            sh:path datasets:language ],
-        [ sh:class datasets:Rule ;
-            sh:nodeKind sh:BlankNode ;
-            sh:order 1 ;
-            sh:path datasets:rules ],
-        [ sh:class dcat:Distribution ;
-            sh:nodeKind sh:IRI ;
-            sh:order 0 ;
-            sh:path dcat:distribution ],
-        [ sh:maxCount 1 ;
-            sh:order 12 ;
-            sh:path dcterms:publisher ],
-        [ sh:in ( "Example" "CounterExample" ) ;
-            sh:order 20 ;
-            sh:path datasets:test_roles ],
-        [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
-            sh:maxCount 1 ;
-            sh:order 17 ;
-            sh:path datasets:compression ] ;
-    sh:targetClass void:Dataset .
 
 datasets:FormatDialect a sh:NodeShape ;
     sh:closed true ;
@@ -101,188 +23,31 @@ datasets:FormatDialect a sh:NodeShape ;
             sh:order 4 ;
             sh:path datasets:quote_char ],
         [ sh:maxCount 1 ;
-            sh:order 3 ;
-            sh:path datasets:header ],
-        [ sh:maxCount 1 ;
             sh:order 1 ;
             sh:path datasets:delimiter ],
         [ sh:maxCount 1 ;
             sh:order 0 ;
-            sh:path datasets:comment_prefix ] ;
+            sh:path datasets:comment_prefix ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path datasets:header ] ;
     sh:targetClass datasets:FormatDialect .
 
-datasets:Information a sh:NodeShape ;
+datasets:ContentCheck a sh:NodeShape ;
     sh:closed true ;
-    sh:description "Grouping for datasets and data files" ;
+    sh:description "an object describing conditions that apply to the contents of a file" ;
     sh:ignoredProperties ( rdf:type ) ;
     sh:property [ sh:maxCount 1 ;
-            sh:order 12 ;
-            sh:path dcterms:issued ],
-        [ sh:maxCount 1 ;
-            sh:order 5 ;
-            sh:path dcterms:conformsTo ],
-        [ sh:description "the unique name of the dataset" ;
-            sh:maxCount 1 ;
-            sh:order 0 ;
-            sh:path dcterms:identifier ],
-        [ sh:in ( "Example" "CounterExample" ) ;
-            sh:order 18 ;
-            sh:path datasets:test_roles ],
-        [ sh:description "license for the data" ;
-            sh:maxCount 1 ;
             sh:order 2 ;
-            sh:path dcterms:license ],
-        [ sh:maxCount 1 ;
-            sh:order 17 ;
-            sh:path dcat:landingPage ],
-        [ sh:description "language in which the information is expressed" ;
-            sh:maxCount 1 ;
-            sh:order 9 ;
-            sh:path datasets:language ],
-        [ sh:maxCount 1 ;
-            sh:order 10 ;
-            sh:path dcterms:publisher ],
-        [ sh:description "human readable description of the information" ;
-            sh:maxCount 1 ;
-            sh:order 4 ;
-            sh:path dcterms:description ],
-        [ sh:maxCount 1 ;
-            sh:order 6 ;
-            sh:path datasets:conforms_to_schema ],
-        [ sh:description "class in schema which the data object instantiates" ;
-            sh:maxCount 1 ;
-            sh:order 7 ;
-            sh:path datasets:conforms_to_class ],
+            sh:path datasets:maximum_line_number ],
         [ sh:maxCount 1 ;
             sh:order 1 ;
-            sh:path dcat:downloadURL ],
-        [ sh:description "time at which the element was created" ;
+            sh:path datasets:minimum_line_number ],
+        [ sh:description "regular expression to be matched, by default on a per line basis" ;
             sh:maxCount 1 ;
-            sh:order 14 ;
-            sh:path pav:createdOn ],
-        [ sh:order 11 ;
-            sh:path dcat:keyword ],
-        [ sh:description "particular version of schema" ;
-            sh:maxCount 1 ;
-            sh:order 8 ;
-            sh:path pav:version ],
-        [ sh:description "the official title of the element" ;
-            sh:maxCount 1 ;
-            sh:order 3 ;
-            sh:path dcterms:title ],
-        [ sh:description "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en" ;
-            sh:maxCount 1 ;
-            sh:order 16 ;
-            sh:path prov:wasDerivedFrom ],
-        [ sh:description "agent that created the element" ;
-            sh:maxCount 1 ;
-            sh:order 13 ;
-            sh:path pav:createdBy ],
-        [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
-            sh:maxCount 1 ;
-            sh:order 15 ;
-            sh:path datasets:compression ] ;
-    sh:targetClass datasets:Information .
-
-dcat:Distribution a sh:NodeShape ;
-    sh:closed true ;
-    sh:description "An individual file or table" ;
-    sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:description "license for the data" ;
-            sh:maxCount 1 ;
-            sh:order 13 ;
-            sh:path dcterms:license ],
-        [ sh:maxCount 1 ;
-            sh:order 10 ;
-            sh:path csvw:dialect ],
-        [ sh:maxCount 1 ;
-            sh:order 4 ;
-            sh:path dcat:mediaType ],
-        [ sh:description "time at which the element was created" ;
-            sh:maxCount 1 ;
-            sh:order 23 ;
-            sh:path pav:createdOn ],
-        [ sh:description "class in schema which the data object instantiates" ;
-            sh:maxCount 1 ;
-            sh:order 16 ;
-            sh:path datasets:conforms_to_class ],
-        [ sh:maxCount 1 ;
-            sh:order 7 ;
-            sh:path datasets:hash ],
-        [ sh:in ( "Example" "CounterExample" ) ;
-            sh:order 27 ;
-            sh:path datasets:test_roles ],
-        [ sh:description "the unique name of the dataset" ;
-            sh:maxCount 1 ;
-            sh:order 11 ;
-            sh:path dcterms:identifier ],
-        [ sh:maxCount 1 ;
-            sh:order 9 ;
-            sh:path datasets:sha256 ],
-        [ sh:maxCount 1 ;
-            sh:order 14 ;
-            sh:path dcterms:conformsTo ],
-        [ sh:description "agent that created the element" ;
-            sh:maxCount 1 ;
-            sh:order 22 ;
-            sh:path pav:createdBy ],
-        [ sh:description "language in which the information is expressed" ;
-            sh:maxCount 1 ;
-            sh:order 18 ;
-            sh:path datasets:language ],
-        [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
-            sh:maxCount 1 ;
-            sh:order 24 ;
-            sh:path datasets:compression ],
-        [ sh:maxCount 1 ;
-            sh:order 19 ;
-            sh:path dcterms:publisher ],
-        [ sh:maxCount 1 ;
-            sh:order 5 ;
-            sh:path datasets:encoding ],
-        [ sh:description "the official title of the element" ;
-            sh:maxCount 1 ;
-            sh:order 1 ;
-            sh:path dcterms:title ],
-        [ sh:maxCount 1 ;
-            sh:order 21 ;
-            sh:path dcterms:issued ],
-        [ sh:maxCount 1 ;
-            sh:order 15 ;
-            sh:path datasets:conforms_to_schema ],
-        [ sh:maxCount 1 ;
-            sh:order 26 ;
-            sh:path dcat:landingPage ],
-        [ sh:description "human readable description of the information" ;
-            sh:maxCount 1 ;
-            sh:order 2 ;
-            sh:path dcterms:description ],
-        [ sh:description "particular version of schema" ;
-            sh:maxCount 1 ;
-            sh:order 17 ;
-            sh:path pav:version ],
-        [ sh:maxCount 1 ;
-            sh:order 12 ;
-            sh:path dcat:downloadURL ],
-        [ sh:description "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en" ;
-            sh:maxCount 1 ;
-            sh:order 25 ;
-            sh:path prov:wasDerivedFrom ],
-        [ sh:maxCount 1 ;
-            sh:order 6 ;
-            sh:path dcat:byteSize ],
-        [ sh:maxCount 1 ;
             sh:order 0 ;
-            sh:path datasets:path ],
-        [ sh:order 20 ;
-            sh:path dcat:keyword ],
-        [ sh:maxCount 1 ;
-            sh:order 8 ;
-            sh:path datasets:md5 ],
-        [ sh:maxCount 1 ;
-            sh:order 3 ;
-            sh:path dcterms:format ] ;
-    sh:targetClass dcat:Distribution .
+            sh:path datasets:contains_regexp ] ;
+    sh:targetClass datasets:ContentCheck .
 
 datasets:Rule a sh:NodeShape ;
     sh:closed true ;
@@ -300,18 +65,18 @@ datasets:Rule a sh:NodeShape ;
 datasets:RulePostcondition a sh:NodeShape ;
     sh:closed true ;
     sh:ignoredProperties ( rdf:type ) ;
-    sh:property [ sh:order 3 ;
-            sh:path dcat:keyword ],
+    sh:property [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path dcterms:conformsTo ],
         [ sh:maxCount 1 ;
             sh:order 0 ;
             sh:path dcterms:format ],
+        [ sh:order 3 ;
+            sh:path dcat:keyword ],
         [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
             sh:maxCount 1 ;
             sh:order 2 ;
-            sh:path datasets:compression ],
-        [ sh:maxCount 1 ;
-            sh:order 1 ;
-            sh:path dcterms:conformsTo ] ;
+            sh:path datasets:compression ] ;
     sh:targetClass datasets:RulePostcondition .
 
 datasets:RulePrecondition a sh:NodeShape ;
@@ -321,16 +86,328 @@ datasets:RulePrecondition a sh:NodeShape ;
             sh:order 2 ;
             sh:path datasets:path_regexp ],
         [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path datasets:final_suffix ],
+        [ sh:class datasets:ContentCheck ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 5 ;
+            sh:path datasets:has_content ],
+        [ sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path datasets:dirname_regexp ],
+        [ sh:maxCount 1 ;
             sh:order 0 ;
             sh:path datasets:basename_regexp ],
         [ sh:maxCount 1 ;
-            sh:order 3 ;
-            sh:path datasets:final_suffix ],
-        [ sh:maxCount 1 ;
             sh:order 4 ;
-            sh:path datasets:has_suffix ],
+            sh:path datasets:has_suffix ] ;
+    sh:targetClass datasets:RulePrecondition .
+
+void:Dataset a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "A collection of data resources" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:name "data package" ;
+    sh:property [ sh:class datasets:Rule ;
+            sh:nodeKind sh:BlankNode ;
+            sh:order 1 ;
+            sh:path datasets:rules ],
+        [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
+            sh:maxCount 1 ;
+            sh:order 19 ;
+            sh:path datasets:compression ],
+        [ sh:description "license for the data" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path dcterms:license ],
+        [ sh:class dcat:Distribution ;
+            sh:nodeKind sh:IRI ;
+            sh:order 0 ;
+            sh:path dcat:distribution ],
+        [ sh:description "class in schema which the data object instantiates" ;
+            sh:maxCount 1 ;
+            sh:order 9 ;
+            sh:path datasets:conforms_to_class ],
+        [ sh:class void:Dataset ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 23 ;
+            sh:path datasets:parent ],
+        [ sh:description "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en" ;
+            sh:maxCount 1 ;
+            sh:order 20 ;
+            sh:path prov:wasDerivedFrom ],
+        [ sh:description "time at which the element was created" ;
+            sh:maxCount 1 ;
+            sh:order 16 ;
+            sh:path pav:createdOn ],
+        [ sh:description "human readable description of the information" ;
+            sh:maxCount 1 ;
+            sh:order 6 ;
+            sh:path dcterms:description ],
+        [ sh:description "language in which the information is expressed" ;
+            sh:maxCount 1 ;
+            sh:order 11 ;
+            sh:path schema1:inLanguage ],
+        [ sh:maxCount 1 ;
+            sh:order 18 ;
+            sh:path owl:deprecated ],
+        [ sh:maxCount 1 ;
+            sh:order 7 ;
+            sh:path dcterms:conformsTo ],
+        [ sh:maxCount 1 ;
+            sh:order 14 ;
+            sh:path dcterms:issued ],
+        [ sh:description "the unique name of the dataset" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path dcterms:identifier ],
+        [ sh:maxCount 1 ;
+            sh:order 21 ;
+            sh:path dcat:landingPage ],
+        [ sh:description "agent that created the element" ;
+            sh:maxCount 1 ;
+            sh:order 15 ;
+            sh:path pav:createdBy ],
+        [ sh:class void:Dataset ;
+            sh:nodeKind sh:IRI ;
+            sh:order 24 ;
+            sh:path datasets:alternate_parents ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path dcat:downloadURL ],
+        [ sh:maxCount 1 ;
+            sh:order 12 ;
+            sh:path dcterms:publisher ],
+        [ sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path datasets:conforms_to_schema ],
+        [ sh:description "particular version of schema" ;
+            sh:maxCount 1 ;
+            sh:order 10 ;
+            sh:path pav:version ],
+        [ sh:description "status of the element" ;
+            sh:maxCount 1 ;
+            sh:order 17 ;
+            sh:path bibo:status ],
+        [ sh:description "the official title of the element" ;
+            sh:maxCount 1 ;
+            sh:order 5 ;
+            sh:path dcterms:title ],
+        [ sh:order 13 ;
+            sh:path dcat:keyword ],
+        [ sh:description "if the resource is to be used in testing, this describes the role it places" ;
+            sh:in ( "Example" "CounterExample" "PerformanceTest" ) ;
+            sh:order 22 ;
+            sh:path datasets:test_roles ] ;
+    sh:targetClass void:Dataset .
+
+datasets:Information a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "Grouping for datasets and data files" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:description "class in schema which the data object instantiates" ;
+            sh:maxCount 1 ;
+            sh:order 7 ;
+            sh:path datasets:conforms_to_class ],
+        [ sh:description "the unique name of the dataset" ;
+            sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path dcterms:identifier ],
         [ sh:maxCount 1 ;
             sh:order 1 ;
-            sh:path datasets:dirname_regexp ] ;
-    sh:targetClass datasets:RulePrecondition .
+            sh:path dcat:downloadURL ],
+        [ sh:description "license for the data" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path dcterms:license ],
+        [ sh:maxCount 1 ;
+            sh:order 5 ;
+            sh:path dcterms:conformsTo ],
+        [ sh:description "time at which the element was created" ;
+            sh:maxCount 1 ;
+            sh:order 14 ;
+            sh:path pav:createdOn ],
+        [ sh:description "if the resource is to be used in testing, this describes the role it places" ;
+            sh:in ( "Example" "CounterExample" "PerformanceTest" ) ;
+            sh:order 20 ;
+            sh:path datasets:test_roles ],
+        [ sh:description "human readable description of the information" ;
+            sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path dcterms:description ],
+        [ sh:description "language in which the information is expressed" ;
+            sh:maxCount 1 ;
+            sh:order 9 ;
+            sh:path schema1:inLanguage ],
+        [ sh:description "particular version of schema" ;
+            sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path pav:version ],
+        [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
+            sh:maxCount 1 ;
+            sh:order 17 ;
+            sh:path datasets:compression ],
+        [ sh:class datasets:Information ;
+            sh:nodeKind sh:IRI ;
+            sh:order 22 ;
+            sh:path datasets:alternate_parents ],
+        [ sh:description "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en" ;
+            sh:maxCount 1 ;
+            sh:order 18 ;
+            sh:path prov:wasDerivedFrom ],
+        [ sh:order 11 ;
+            sh:path dcat:keyword ],
+        [ sh:maxCount 1 ;
+            sh:order 10 ;
+            sh:path dcterms:publisher ],
+        [ sh:maxCount 1 ;
+            sh:order 6 ;
+            sh:path datasets:conforms_to_schema ],
+        [ sh:maxCount 1 ;
+            sh:order 19 ;
+            sh:path dcat:landingPage ],
+        [ sh:description "status of the element" ;
+            sh:maxCount 1 ;
+            sh:order 15 ;
+            sh:path bibo:status ],
+        [ sh:description "agent that created the element" ;
+            sh:maxCount 1 ;
+            sh:order 13 ;
+            sh:path pav:createdBy ],
+        [ sh:class datasets:Information ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 21 ;
+            sh:path datasets:parent ],
+        [ sh:description "the official title of the element" ;
+            sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path dcterms:title ],
+        [ sh:maxCount 1 ;
+            sh:order 12 ;
+            sh:path dcterms:issued ],
+        [ sh:maxCount 1 ;
+            sh:order 16 ;
+            sh:path owl:deprecated ] ;
+    sh:targetClass datasets:Information .
+
+dcat:Distribution a sh:NodeShape ;
+    sh:closed true ;
+    sh:description "An individual file or table" ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:name "data resource" ;
+    sh:property [ sh:description "agent that created the element" ;
+            sh:maxCount 1 ;
+            sh:order 22 ;
+            sh:path pav:createdBy ],
+        [ sh:description "the unique name of the dataset" ;
+            sh:maxCount 1 ;
+            sh:order 11 ;
+            sh:path dcterms:identifier ],
+        [ sh:maxCount 1 ;
+            sh:order 21 ;
+            sh:path dcterms:issued ],
+        [ sh:description "time at which the element was created" ;
+            sh:maxCount 1 ;
+            sh:order 23 ;
+            sh:path pav:createdOn ],
+        [ sh:maxCount 1 ;
+            sh:order 4 ;
+            sh:path dcat:mediaType ],
+        [ sh:description "if the resource is to be used in testing, this describes the role it places" ;
+            sh:in ( "Example" "CounterExample" "PerformanceTest" ) ;
+            sh:order 29 ;
+            sh:path datasets:test_roles ],
+        [ sh:description "human readable description of the information" ;
+            sh:maxCount 1 ;
+            sh:order 2 ;
+            sh:path dcterms:description ],
+        [ sh:maxCount 1 ;
+            sh:order 6 ;
+            sh:path dcat:byteSize ],
+        [ sh:maxCount 1 ;
+            sh:order 3 ;
+            sh:path dcterms:format ],
+        [ sh:maxCount 1 ;
+            sh:order 7 ;
+            sh:path datasets:hash ],
+        [ sh:maxCount 1 ;
+            sh:order 10 ;
+            sh:path csvw:dialect ],
+        [ sh:maxCount 1 ;
+            sh:order 28 ;
+            sh:path dcat:landingPage ],
+        [ sh:maxCount 1 ;
+            sh:order 0 ;
+            sh:path datasets:path ],
+        [ sh:maxCount 1 ;
+            sh:order 12 ;
+            sh:path dcat:downloadURL ],
+        [ sh:maxCount 1 ;
+            sh:order 19 ;
+            sh:path dcterms:publisher ],
+        [ sh:maxCount 1 ;
+            sh:order 15 ;
+            sh:path datasets:conforms_to_schema ],
+        [ sh:class dcat:Distribution ;
+            sh:nodeKind sh:IRI ;
+            sh:order 31 ;
+            sh:path datasets:alternate_parents ],
+        [ sh:order 20 ;
+            sh:path dcat:keyword ],
+        [ sh:description "A derivation is a transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a new entity based on a pre-existing entity.@en" ;
+            sh:maxCount 1 ;
+            sh:order 27 ;
+            sh:path prov:wasDerivedFrom ],
+        [ sh:maxCount 1 ;
+            sh:order 9 ;
+            sh:path datasets:sha256 ],
+        [ sh:description "license for the data" ;
+            sh:maxCount 1 ;
+            sh:order 13 ;
+            sh:path dcterms:license ],
+        [ sh:maxCount 1 ;
+            sh:order 14 ;
+            sh:path dcterms:conformsTo ],
+        [ sh:maxCount 1 ;
+            sh:order 25 ;
+            sh:path owl:deprecated ],
+        [ sh:in ( "GZIP" "ZIP" "BGZIP" ) ;
+            sh:maxCount 1 ;
+            sh:order 26 ;
+            sh:path datasets:compression ],
+        [ sh:description "class in schema which the data object instantiates" ;
+            sh:maxCount 1 ;
+            sh:order 16 ;
+            sh:path datasets:conforms_to_class ],
+        [ sh:description "the official title of the element" ;
+            sh:maxCount 1 ;
+            sh:order 1 ;
+            sh:path dcterms:title ],
+        [ sh:description "language in which the information is expressed" ;
+            sh:maxCount 1 ;
+            sh:order 18 ;
+            sh:path schema1:inLanguage ],
+        [ sh:class dcat:Distribution ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:IRI ;
+            sh:order 30 ;
+            sh:path datasets:parent ],
+        [ sh:description "particular version of schema" ;
+            sh:maxCount 1 ;
+            sh:order 17 ;
+            sh:path pav:version ],
+        [ sh:maxCount 1 ;
+            sh:order 8 ;
+            sh:path datasets:md5 ],
+        [ sh:description "status of the element" ;
+            sh:maxCount 1 ;
+            sh:order 24 ;
+            sh:path bibo:status ],
+        [ sh:maxCount 1 ;
+            sh:order 5 ;
+            sh:path datasets:encoding ] ;
+    sh:targetClass dcat:Distribution .
 

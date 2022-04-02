@@ -1,3 +1,10 @@
+// an object describing conditions that apply to the contents of a file
+message ContentCheck
+ {
+  optional containsRegexp String = 1
+  optional minimumLineNumber Integer = 2
+  optional maximumLineNumber Integer = 3
+ }
 // A collection of data resources
 message DataPackage
  {
@@ -16,12 +23,16 @@ message DataPackage
   optional issued Datetime = 13
   optional createdBy Uriorcurie = 14
   optional createdOn Datetime = 15
-  optional compression CompressionTypeEnum = 16
-  optional wasDerivedFrom String = 17
-  optional page String = 18
-  repeated testRoles TestRole = 19
-  repeated resources DataResource = 20
-  repeated rules Rule = 21
+  optional status Uriorcurie = 16
+  optional deprecated Boolean = 17
+  optional compression CompressionTypeEnum = 18
+  optional wasDerivedFrom String = 19
+  optional page String = 20
+  repeated testRoles TestRole = 21
+  repeated resources DataResource = 22
+  repeated rules Rule = 23
+  optional parent DataPackage = 24
+  repeated alternateParents DataPackage = 25
  }
 // An individual file or table
 message DataResource
@@ -39,21 +50,25 @@ message DataResource
   optional issued Datetime = 11
   optional createdBy Uriorcurie = 12
   optional createdOn Datetime = 13
-  optional compression CompressionTypeEnum = 14
-  optional wasDerivedFrom String = 15
-  optional page String = 16
-  repeated testRoles TestRole = 17
-  optional path String = 18
-  optional title String = 19
-  optional description String = 20
-  optional format String = 21
-  optional mediaType String = 22
-  optional encoding String = 23
-  optional bytes Integer = 24
-  optional hash String = 25
-  optional md5 String = 26
-  optional sha256 String = 27
-  optional dialect String = 28
+  optional status Uriorcurie = 14
+  optional deprecated Boolean = 15
+  optional compression CompressionTypeEnum = 16
+  optional wasDerivedFrom String = 17
+  optional page String = 18
+  repeated testRoles TestRole = 19
+  optional path String = 20
+  optional title String = 21
+  optional description String = 22
+  optional format String = 23
+  optional mediaType String = 24
+  optional encoding String = 25
+  optional bytes Integer = 26
+  optional hash String = 27
+  optional md5 String = 28
+  optional sha256 String = 29
+  optional dialect String = 30
+  optional parent DataResource = 31
+  repeated alternateParents DataResource = 32
  }
 // Additional format information for a file
 message FormatDialect
@@ -83,4 +98,5 @@ message RulePrecondition
   optional pathRegexp String = 3
   optional finalSuffix String = 4
   optional hasSuffix String = 5
+  optional hasContent ContentCheck = 6
  }

@@ -1,12 +1,16 @@
 @prefix IAO: <http://purl.obolibrary.org/obo/IAO_> .
+@prefix NCIT: <http://purl.obolibrary.org/obo/NCIT_> .
+@prefix SIO: <http://semanticscience.org/resource/SIO_> .
 @prefix bald: <https://www.opengis.net/def/binary-array-ld/> .
 @prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix csvw: <http://www.w3.org/ns/csvw#> .
 @prefix datasets: <https://w3id.org/linkml/manifesto/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix edam: <http://edamontology.org/> .
 @prefix formats: <http://www.w3.org/ns/formats/> .
 @prefix frictionless: <https://specs.frictionlessdata.io/> .
+@prefix iso19115: <http://def.isotc211.org/iso19115/-1/2014/CitationAndResponsiblePartyInformation/code/CI_RoleCode/> .
 @prefix linkml: <https://w3id.org/linkml/> .
 @prefix oslc: <http://open-services.net/ns/core#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -16,6 +20,7 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix schema1: <http://schema.org/> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix upcore: <https://www.uniprot.org/core/> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
@@ -27,46 +32,28 @@ linkml:TypeDefinition a owl:Class ;
 
 linkml:data-manifesto a owl:Ontology ;
     rdfs:label "datasets" ;
-    IAO:0000700 datasets:FormatDialect,
+    IAO:0000700 datasets:ContentCheck,
+        datasets:FormatDialect,
         datasets:Information,
         datasets:Rule,
         datasets:RulePostcondition,
         datasets:RulePrecondition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    dcterms:title "LinkML Datasets Datamodel" ;
-    rdfs:seeAlso "https://specs.frictionlessdata.io/data-resource",
+    rdfs:seeAlso "https://developers.google.com/search/docs/advanced/structured-data/dataset",
+        "https://specs.frictionlessdata.io/data-resource",
         "https://www.w3.org/TR/hcls-dataset/",
         "https://www.w3.org/TR/void/" ;
-    linkml:generation_date "2022-03-25T16:59:00" ;
+    linkml:generation_date "2022-04-01T17:40:17" ;
     linkml:metamodel_version "1.7.0" ;
     linkml:source_file "data_manifesto.yaml" ;
-    linkml:source_file_date "2022-03-22T10:06:20" ;
-    linkml:source_file_size 8822 .
-
-datasets:DataPackage a owl:Class,
-        linkml:ClassDefinition ;
-    rdfs:label "DataPackage" ;
-    rdfs:seeAlso "https://specs.frictionlessdata.io/data-package" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:allValuesFrom datasets:Rule ;
-            owl:onProperty datasets:rules ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom datasets:DataResource ;
-            owl:onProperty dcat:distribution ],
-        datasets:Information ;
-    skos:altLabel "data resource collection",
-        "dataset",
-        "file collection" ;
-    skos:closeMatch dcat:Catalog ;
-    skos:exactMatch void:Dataset,
-        dcat:Dataset,
-        bald:Container .
+    linkml:source_file_date "2022-04-01T17:39:20" ;
+    linkml:source_file_size 12934 .
 
 datasets:profile a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "profile" ;
     rdfs:range linkml:Uriorcurie ;
-    skos:exactMatch frictionless:profiles .
+    skos:exactMatch frictionless:profile .
 
 linkml:topValue a owl:DatatypeProperty ;
     rdfs:label "value" .
@@ -77,18 +64,60 @@ oslc:modifiedBy a owl:ObjectProperty,
     rdfs:range linkml:Uriorcurie ;
     skos:exactMatch oslc:modifiedBy .
 
-bibo:status a owl:ObjectProperty,
-        linkml:SlotDefinition ;
-    rdfs:label "status" ;
-    rdfs:range linkml:Uriorcurie ;
-    skos:exactMatch bibo:status ;
-    linkml:examples "Example(value='bibo:draft', description=None)" .
-
 pav:lastUpdatedOn a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "last_updated_on" ;
     rdfs:range linkml:Datetime ;
     skos:exactMatch pav:lastUpdatedOn .
+
+schema1:funder a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "funder" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:funder .
+
+schema1:hasPart a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "hasPart" ;
+    rdfs:range datasets:DataPackage ;
+    skos:exactMatch schema1:hasPart .
+
+schema1:identifier a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "identifier" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:identifier,
+        skos:related .
+
+schema1:includedInDataCatalog a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "includedInDataCatalog" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:includedInDataCatalog .
+
+schema1:isAccessibleForFree a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "isAccessibleForFree" ;
+    rdfs:range linkml:Boolean ;
+    skos:exactMatch schema1:isAccessibleForFree .
+
+schema1:sameAs a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "sameAs" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:sameAs .
+
+schema1:spatialCoverage a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "spatialCoverage" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:spatialCoverage .
+
+schema1:temporalCoverage a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "temporalCoverage" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:temporalCoverage .
 
 dcat:theme a owl:ObjectProperty,
         linkml:SlotDefinition ;
@@ -102,14 +131,6 @@ datasets:FormatDialect a owl:Class,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty datasets:double_quote ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:delimiter ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
             owl:onProperty datasets:header ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
@@ -118,7 +139,15 @@ datasets:FormatDialect a owl:Class,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty datasets:comment_prefix ] .
+            owl:onProperty datasets:double_quote ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:comment_prefix ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:delimiter ] .
 
 datasets:basename_regexp a owl:ObjectProperty,
         linkml:SlotDefinition ;
@@ -142,6 +171,11 @@ datasets:conforms_to_schema a owl:ObjectProperty,
     rdfs:range linkml:Uriorcurie ;
     rdfs:subPropertyOf dcterms:conformsTo ;
     skos:exactMatch frictionless:schema .
+
+datasets:contains_regexp a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "contains_regexp" ;
+    rdfs:range linkml:String .
 
 datasets:delimiter a owl:ObjectProperty,
         linkml:SlotDefinition ;
@@ -168,6 +202,11 @@ datasets:final_suffix a owl:ObjectProperty,
     rdfs:label "final_suffix" ;
     rdfs:range linkml:String .
 
+datasets:has_content a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "has_content" ;
+    rdfs:range datasets:ContentCheck .
+
 datasets:has_suffix a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "has_suffix" ;
@@ -178,16 +217,24 @@ datasets:header a owl:ObjectProperty,
     rdfs:label "header" ;
     rdfs:range linkml:String .
 
-datasets:language a owl:ObjectProperty,
+datasets:maximum_line_number a owl:ObjectProperty,
         linkml:SlotDefinition ;
-    rdfs:label "language" ;
-    rdfs:range linkml:String .
+    rdfs:label "maximum_line_number" ;
+    rdfs:range linkml:Integer .
 
 datasets:md5 a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "md5" ;
     rdfs:range linkml:String ;
-    rdfs:subPropertyOf datasets:hash .
+    rdfs:subPropertyOf datasets:hash ;
+    skos:altLabel "md5 checksum",
+        "md5 digest" ;
+    skos:narrowMatch upcore:md5Checksum .
+
+datasets:minimum_line_number a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "minimum_line_number" ;
+    rdfs:range linkml:Integer .
 
 datasets:path a owl:ObjectProperty,
         linkml:SlotDefinition ;
@@ -224,7 +271,10 @@ datasets:sha256 a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "sha256" ;
     rdfs:range linkml:String ;
-    rdfs:subPropertyOf datasets:hash .
+    rdfs:subPropertyOf datasets:hash ;
+    skos:altLabel "sha256 checksum",
+        "sha256 digest" ;
+    skos:exactMatch NCIT:C171276 .
 
 datasets:test_roles a owl:ObjectProperty,
         linkml:SlotDefinition ;
@@ -235,7 +285,8 @@ dcterms:description a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "description" ;
     rdfs:range linkml:String ;
-    skos:exactMatch dcterms:description .
+    skos:exactMatch NCIT:C138990,
+        dcterms:description .
 
 dcterms:identifier a owl:ObjectProperty,
         linkml:SlotDefinition ;
@@ -254,25 +305,38 @@ dcterms:license a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "license" ;
     rdfs:range linkml:String ;
-    skos:exactMatch dcterms:license,
+    skos:exactMatch NCIT:C43611,
+        dcterms:license,
         frictionless:licenses .
 
 dcterms:publisher a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "publisher" ;
     rdfs:range linkml:Uriorcurie ;
-    skos:exactMatch dcterms:publisher .
+    skos:exactMatch iso19115:publisher,
+        dcterms:publisher .
 
 dcterms:title a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "title" ;
     rdfs:range linkml:String ;
-    skos:exactMatch dcterms:title .
+    skos:closeMatch rdfs:label ;
+    skos:exactMatch NCIT:C49802,
+        dcterms:title,
+        SIO:000185 .
+
+bibo:status a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "status" ;
+    rdfs:range linkml:Uriorcurie ;
+    skos:exactMatch bibo:status ;
+    linkml:examples "Example(value='bibo:draft', description=None)" .
 
 pav:createdBy a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "created_by" ;
     rdfs:range linkml:Uriorcurie ;
+    skos:closeMatch schema1:creator ;
     skos:exactMatch pav:createdBy .
 
 pav:createdOn a owl:ObjectProperty,
@@ -289,6 +353,18 @@ pav:version a owl:ObjectProperty,
         pav:version,
         schema1:version .
 
+schema1:inLanguage a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "language" ;
+    rdfs:range linkml:String ;
+    skos:exactMatch schema1:inLanguage .
+
+owl:deprecated a owl:ObjectProperty,
+        linkml:SlotDefinition ;
+    rdfs:label "deprecated" ;
+    rdfs:range linkml:Boolean ;
+    skos:exactMatch owl:deprecated .
+
 csvw:dialect a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "dialect" ;
@@ -299,6 +375,8 @@ dcat:byteSize a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "bytes" ;
     rdfs:range linkml:Integer ;
+    skos:altLabel "byte size",
+        "size in bytes" ;
     skos:exactMatch dcat:byteSize .
 
 dcat:distribution a owl:ObjectProperty,
@@ -312,6 +390,7 @@ dcat:downloadURL a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "download_url" ;
     rdfs:range linkml:Uri ;
+    skos:altLabel "url" ;
     skos:closeMatch frictionless:path ;
     skos:exactMatch schema1:url,
         dcat:downloadURL .
@@ -443,50 +522,6 @@ prov:wasDerivedFrom a owl:ObjectProperty,
         datasets:CompressionTypeEnum ;
     rdfs:label "ZIP" .
 
-datasets:DataResource a owl:Class,
-        linkml:ClassDefinition ;
-    rdfs:label "DataResource" ;
-    rdfs:seeAlso "https://specs.frictionlessdata.io/data-resource" ;
-    rdfs:subClassOf [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcat:mediaType ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:encoding ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Integer ;
-            owl:onProperty dcat:byteSize ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:md5 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:path ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:sha256 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:hash ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty csvw:dialect ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcterms:format ],
-        datasets:Information ;
-    skos:exactMatch schema1:DataDownload,
-        dcat:Distribution .
-
 datasets:DistributionLevel a owl:Class,
         linkml:EnumDefinition ;
     rdfs:label "DistributionLevel" ;
@@ -529,10 +564,15 @@ datasets:MediaTypeEnum a owl:Class,
         datasets:TestRole ;
     rdfs:label "Example" .
 
+<https://w3id.org/linkml/manifesto/TestRole#PerformanceTest> a owl:Class,
+        datasets:TestRole ;
+    rdfs:label "PerformanceTest" .
+
 datasets:compression a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "compression" ;
-    rdfs:range datasets:CompressionTypeEnum .
+    rdfs:range datasets:CompressionTypeEnum ;
+    skos:altLabel "compression type" .
 
 <https://www.iana.org/assignments/media-types/application/rdf+xml> a owl:Class,
         datasets:MediaTypeEnum ;
@@ -546,94 +586,61 @@ dcterms:format a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "format" ;
     rdfs:range linkml:String ;
-    skos:exactMatch dcterms:format .
+    skos:exactMatch dcterms:format,
+        schema1:encodingFormat .
 
 dcat:keyword a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "keywords" ;
     rdfs:range linkml:String ;
-    skos:exactMatch schema1:keywords,
+    skos:exactMatch IAO:0000630,
+        schema1:keywords,
         dcat:keyword .
 
-datasets:Information a owl:Class,
+datasets:ContentCheck a owl:Class,
         linkml:ClassDefinition ;
-    rdfs:label "Information" ;
+    rdfs:label "ContentCheck" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty dcat:landingPage ],
+            owl:onProperty datasets:contains_regexp ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcterms:license ],
+            owl:onClass linkml:Integer ;
+            owl:onProperty datasets:minimum_line_number ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Uriorcurie ;
-            owl:onProperty datasets:conforms_to_class ],
+            owl:onClass linkml:Integer ;
+            owl:onProperty datasets:maximum_line_number ] .
+
+datasets:DataPackage a owl:Class,
+        linkml:ClassDefinition ;
+    rdfs:label "DataPackage" ;
+    dcterms:title "data package" ;
+    rdfs:seeAlso "https://developers.google.com/search/docs/advanced/structured-data/dataset",
+        "https://github.com/ESIPFed/science-on-schema.org/blob/master/guides/Dataset.md",
+        "https://specs.frictionlessdata.io/data-package" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom datasets:Rule ;
+            owl:onProperty datasets:rules ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom datasets:DataResource ;
+            owl:onProperty dcat:distribution ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Uriorcurie ;
-            owl:onProperty dcterms:conformsTo ],
+            owl:onClass datasets:DataPackage ;
+            owl:onProperty datasets:parent ],
         [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Uriorcurie ;
-            owl:onProperty dcterms:publisher ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Uri ;
-            owl:onProperty dcat:downloadURL ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty datasets:language ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Datetime ;
-            owl:onProperty dcterms:issued ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass datasets:CompressionTypeEnum ;
-            owl:onProperty datasets:compression ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Uriorcurie ;
-            owl:onProperty pav:createdBy ],
-        [ a owl:Restriction ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcterms:identifier ;
-            owl:qualifiedCardinality 1 ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty pav:version ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcterms:description ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty prov:wasDerivedFrom ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Datetime ;
-            owl:onProperty pav:createdOn ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:Uriorcurie ;
-            owl:onProperty datasets:conforms_to_schema ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom linkml:String ;
-            owl:onProperty dcat:keyword ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom datasets:TestRole ;
-            owl:onProperty datasets:test_roles ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcterms:title ] ;
-    skos:closeMatch schema1:CreativeWork,
-        bald:Resource .
+            owl:allValuesFrom datasets:DataPackage ;
+            owl:onProperty datasets:alternate_parents ],
+        datasets:Information ;
+    skos:altLabel "data resource collection",
+        "dataset",
+        "file collection" ;
+    skos:closeMatch dcat:Catalog ;
+    skos:exactMatch void:Dataset,
+        dcat:Dataset,
+        bald:Container .
 
 datasets:Rule a owl:Class,
         linkml:ClassDefinition ;
@@ -650,19 +657,19 @@ datasets:RulePostcondition a owl:Class,
     rdfs:label "RulePostcondition" ;
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
-            owl:onClass linkml:String ;
-            owl:onProperty dcterms:format ],
-        [ a owl:Restriction ;
-            owl:allValuesFrom linkml:String ;
-            owl:onProperty dcat:keyword ],
-        [ a owl:Restriction ;
-            owl:maxQualifiedCardinality 1 ;
             owl:onClass datasets:CompressionTypeEnum ;
             owl:onProperty datasets:compression ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:Uriorcurie ;
-            owl:onProperty dcterms:conformsTo ] .
+            owl:onProperty dcterms:conformsTo ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcterms:format ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom linkml:String ;
+            owl:onProperty dcat:keyword ] .
 
 datasets:RulePrecondition a owl:Class,
         linkml:ClassDefinition ;
@@ -670,11 +677,15 @@ datasets:RulePrecondition a owl:Class,
     rdfs:subClassOf [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty datasets:dirname_regexp ],
+            owl:onProperty datasets:basename_regexp ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty datasets:basename_regexp ],
+            owl:onProperty datasets:dirname_regexp ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass datasets:ContentCheck ;
+            owl:onProperty datasets:has_content ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
@@ -682,30 +693,188 @@ datasets:RulePrecondition a owl:Class,
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty datasets:path_regexp ],
+            owl:onProperty datasets:has_suffix ],
         [ a owl:Restriction ;
             owl:maxQualifiedCardinality 1 ;
             owl:onClass linkml:String ;
-            owl:onProperty datasets:has_suffix ] .
+            owl:onProperty datasets:path_regexp ] .
+
+datasets:alternate_parents a owl:ObjectProperty,
+        linkml:SlotDefinition .
 
 datasets:hash a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "hash" ;
     rdfs:range linkml:String ;
-    skos:editorialNote "we recommend using a more specific slot such as sha256 or md5" .
+    skos:altLabel "checksum",
+        "digest" ;
+    skos:editorialNote "we recommend using a more specific slot such as sha256 or md5" ;
+    skos:narrowMatch edam:data_2190,
+        upcore:checksum .
 
-datasets:TestRole a owl:Class,
-        linkml:EnumDefinition ;
-    rdfs:label "TestRole" ;
-    owl:unionOf ( <https://w3id.org/linkml/manifesto/TestRole#Example> <https://w3id.org/linkml/manifesto/TestRole#CounterExample> ) ;
-    linkml:permissible_values <https://w3id.org/linkml/manifesto/TestRole#CounterExample>,
-        <https://w3id.org/linkml/manifesto/TestRole#Example> .
+datasets:parent a owl:ObjectProperty,
+        linkml:SlotDefinition .
+
+datasets:DataResource a owl:Class,
+        linkml:ClassDefinition ;
+    rdfs:label "DataResource" ;
+    dcterms:title "data resource" ;
+    rdfs:seeAlso "https://specs.frictionlessdata.io/data-resource" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:hash ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcat:mediaType ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:path ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:md5 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcterms:format ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom datasets:DataResource ;
+            owl:onProperty datasets:alternate_parents ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Integer ;
+            owl:onProperty dcat:byteSize ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:encoding ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty datasets:sha256 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty csvw:dialect ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass datasets:DataResource ;
+            owl:onProperty datasets:parent ],
+        datasets:Information ;
+    skos:exactMatch schema1:DataDownload,
+        dcat:Distribution .
 
 dcterms:conformsTo a owl:ObjectProperty,
         linkml:SlotDefinition ;
     rdfs:label "conforms_to" ;
     rdfs:range linkml:Uriorcurie ;
     skos:exactMatch dcterms:conformsTo .
+
+datasets:Information a owl:Class,
+        linkml:ClassDefinition ;
+    rdfs:label "Information" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcterms:description ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcat:landingPage ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uri ;
+            owl:onProperty dcat:downloadURL ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass datasets:Information ;
+            owl:onProperty datasets:parent ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Datetime ;
+            owl:onProperty dcterms:issued ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcterms:title ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom datasets:TestRole ;
+            owl:onProperty datasets:test_roles ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom datasets:Information ;
+            owl:onProperty datasets:alternate_parents ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty pav:version ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty prov:wasDerivedFrom ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass datasets:CompressionTypeEnum ;
+            owl:onProperty datasets:compression ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uriorcurie ;
+            owl:onProperty bibo:status ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom linkml:String ;
+            owl:onProperty dcat:keyword ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcterms:license ],
+        [ a owl:Restriction ;
+            owl:onClass linkml:String ;
+            owl:onProperty dcterms:identifier ;
+            owl:qualifiedCardinality 1 ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uriorcurie ;
+            owl:onProperty datasets:conforms_to_schema ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uriorcurie ;
+            owl:onProperty pav:createdBy ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uriorcurie ;
+            owl:onProperty dcterms:publisher ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Datetime ;
+            owl:onProperty pav:createdOn ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:String ;
+            owl:onProperty schema1:inLanguage ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Boolean ;
+            owl:onProperty owl:deprecated ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uriorcurie ;
+            owl:onProperty dcterms:conformsTo ],
+        [ a owl:Restriction ;
+            owl:maxQualifiedCardinality 1 ;
+            owl:onClass linkml:Uriorcurie ;
+            owl:onProperty datasets:conforms_to_class ] ;
+    skos:closeMatch schema1:CreativeWork,
+        bald:Resource .
+
+datasets:TestRole a owl:Class,
+        linkml:EnumDefinition ;
+    rdfs:label "TestRole" ;
+    owl:unionOf ( <https://w3id.org/linkml/manifesto/TestRole#Example> <https://w3id.org/linkml/manifesto/TestRole#CounterExample> <https://w3id.org/linkml/manifesto/TestRole#PerformanceTest> ) ;
+    linkml:permissible_values <https://w3id.org/linkml/manifesto/TestRole#CounterExample>,
+        <https://w3id.org/linkml/manifesto/TestRole#Example>,
+        <https://w3id.org/linkml/manifesto/TestRole#PerformanceTest> .
 
 datasets:CompressionTypeEnum a owl:Class,
         linkml:EnumDefinition ;

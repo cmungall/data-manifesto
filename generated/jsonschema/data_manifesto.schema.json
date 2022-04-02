@@ -10,10 +10,35 @@
          "title": "CompressionTypeEnum",
          "type": "string"
       },
+      "ContentCheck": {
+         "additionalProperties": false,
+         "description": "an object describing conditions that apply to the contents of a file",
+         "properties": {
+            "contains_regexp": {
+               "description": "regular expression to be matched, by default on a per line basis",
+               "type": "string"
+            },
+            "maximum_line_number": {
+               "type": "integer"
+            },
+            "minimum_line_number": {
+               "type": "integer"
+            }
+         },
+         "required": [],
+         "title": "ContentCheck",
+         "type": "object"
+      },
       "DataPackage": {
          "additionalProperties": false,
          "description": "A collection of data resources",
          "properties": {
+            "alternate_parents": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
             "compression": {
                "$ref": "#/$defs/CompressionTypeEnum"
             },
@@ -35,6 +60,9 @@
                "description": "time at which the element was created",
                "format": "date-time",
                "type": "string"
+            },
+            "deprecated": {
+               "type": "boolean"
             },
             "description": {
                "description": "human readable description of the information",
@@ -68,6 +96,9 @@
             "page": {
                "type": "string"
             },
+            "parent": {
+               "type": "string"
+            },
             "publisher": {
                "type": "string"
             },
@@ -83,7 +114,12 @@
                },
                "type": "array"
             },
+            "status": {
+               "description": "status of the element",
+               "type": "string"
+            },
             "test_roles": {
+               "description": "if the resource is to be used in testing, this describes the role it places",
                "items": {
                   "$ref": "#/$defs/TestRole"
                },
@@ -112,6 +148,12 @@
          "additionalProperties": false,
          "description": "An individual file or table",
          "properties": {
+            "alternate_parents": {
+               "items": {
+                  "type": "string"
+               },
+               "type": "array"
+            },
             "bytes": {
                "type": "integer"
             },
@@ -136,6 +178,9 @@
                "description": "time at which the element was created",
                "format": "date-time",
                "type": "string"
+            },
+            "deprecated": {
+               "type": "boolean"
             },
             "description": {
                "description": "human readable description of the information",
@@ -187,6 +232,9 @@
             "page": {
                "type": "string"
             },
+            "parent": {
+               "type": "string"
+            },
             "path": {
                "type": "string"
             },
@@ -196,7 +244,12 @@
             "sha256": {
                "type": "string"
             },
+            "status": {
+               "description": "status of the element",
+               "type": "string"
+            },
             "test_roles": {
+               "description": "if the resource is to be used in testing, this describes the role it places",
                "items": {
                   "$ref": "#/$defs/TestRole"
                },
@@ -354,6 +407,9 @@
             "final_suffix": {
                "type": "string"
             },
+            "has_content": {
+               "$ref": "#/$defs/ContentCheck"
+            },
             "has_suffix": {
                "type": "string"
             },
@@ -366,10 +422,11 @@
          "type": "object"
       },
       "TestRole": {
-         "description": "",
+         "description": "describes the role an artefact plays for system testing or for informing humans",
          "enum": [
             "Example",
-            "CounterExample"
+            "CounterExample",
+            "PerformanceTest"
          ],
          "title": "TestRole",
          "type": "string"

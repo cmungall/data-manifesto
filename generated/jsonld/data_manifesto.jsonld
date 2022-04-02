@@ -1,11 +1,14 @@
 {
   "name": "datasets",
   "description": "A datamodel for datasets",
-  "title": "LinkML Datasets Datamodel",
+  "todos": [
+    "switch to schema.org names as the default rather than frictionless"
+  ],
   "see_also": [
     "https://specs.frictionlessdata.io/data-resource",
     "https://www.w3.org/TR/void/",
-    "https://www.w3.org/TR/hcls-dataset/"
+    "https://www.w3.org/TR/hcls-dataset/",
+    "https://developers.google.com/search/docs/advanced/structured-data/dataset"
   ],
   "id": "https://w3id.org/linkml/data-manifesto",
   "imports": [
@@ -72,6 +75,34 @@
     {
       "prefix_prefix": "bald",
       "prefix_reference": "https://www.opengis.net/def/binary-array-ld/"
+    },
+    {
+      "prefix_prefix": "IAO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/IAO_"
+    },
+    {
+      "prefix_prefix": "SIO",
+      "prefix_reference": "http://semanticscience.org/resource/SIO_"
+    },
+    {
+      "prefix_prefix": "NCIT",
+      "prefix_reference": "http://purl.obolibrary.org/obo/NCIT_"
+    },
+    {
+      "prefix_prefix": "UO",
+      "prefix_reference": "http://purl.obolibrary.org/obo/UO_"
+    },
+    {
+      "prefix_prefix": "iso19115",
+      "prefix_reference": "http://def.isotc211.org/iso19115/-1/2014/CitationAndResponsiblePartyInformation/code/CI_RoleCode/"
+    },
+    {
+      "prefix_prefix": "edam",
+      "prefix_reference": "http://edamontology.org/"
+    },
+    {
+      "prefix_prefix": "upcore",
+      "prefix_reference": "https://www.uniprot.org/core/"
     },
     {
       "prefix_prefix": "file",
@@ -267,13 +298,20 @@
     {
       "name": "TestRole",
       "definition_uri": "https://w3id.org/linkml/manifesto/TestRole",
+      "description": "describes the role an artefact plays for system testing or for informing humans",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "permissible_values": [
         {
-          "text": "Example"
+          "text": "Example",
+          "description": "intended as an informative example that shows an agent how to do something, and may be used in automated test suites"
         },
         {
-          "text": "CounterExample"
+          "text": "CounterExample",
+          "description": "intended as an informative example that shows an agent how NOT to do something, and may be used in automated test suites as negative data"
+        },
+        {
+          "text": "PerformanceTest",
+          "description": "intended to be used for benchmarking or carrying out performance tests, for example, time and memory to process a resource"
         }
       ]
     },
@@ -314,6 +352,9 @@
     {
       "name": "FormatEnum",
       "definition_uri": "https://w3id.org/linkml/manifesto/FormatEnum",
+      "exact_mappings": [
+        "edam:format_1915"
+      ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "permissible_values": [
         {
@@ -443,10 +484,44 @@
       "@type": "SlotDefinition"
     },
     {
+      "name": "identifier",
+      "definition_uri": "https://w3id.org/linkml/manifesto/identifier",
+      "mappings": [
+        "http://schema.org/identifier"
+      ],
+      "exact_mappings": [
+        "http://www.w3.org/2004/02/skos/core#related"
+      ],
+      "description": "The identifier property represents any kind of identifier for any kind of Thing, such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See background notes for more details.",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/identifier",
+      "multivalued": true,
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "sameAs",
+      "definition_uri": "https://w3id.org/linkml/manifesto/sameAs",
+      "mappings": [
+        "http://schema.org/sameAs"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/sameAs",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
       "name": "title",
       "definition_uri": "https://w3id.org/linkml/manifesto/title",
       "mappings": [
         "http://purl.org/dc/terms/title"
+      ],
+      "exact_mappings": [
+        "http://semanticscience.org/resource/SIO_000185",
+        "http://purl.obolibrary.org/obo/NCIT_C49802"
+      ],
+      "close_mappings": [
+        "http://www.w3.org/2000/01/rdf-schema#label"
       ],
       "description": "the official title of the element",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
@@ -465,6 +540,9 @@
       "mappings": [
         "http://purl.org/dc/terms/description"
       ],
+      "exact_mappings": [
+        "http://purl.obolibrary.org/obo/NCIT_C138990"
+      ],
       "description": "human readable description of the information",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "http://purl.org/dc/terms/description",
@@ -479,9 +557,12 @@
     {
       "name": "language",
       "definition_uri": "https://w3id.org/linkml/manifesto/language",
+      "mappings": [
+        "http://schema.org/inLanguage"
+      ],
       "description": "language in which the information is expressed",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
-      "slot_uri": "https://w3id.org/linkml/manifesto/language",
+      "slot_uri": "http://schema.org/inLanguage",
       "owner": "Information",
       "domain_of": [
         "Information"
@@ -494,6 +575,9 @@
       "definition_uri": "https://w3id.org/linkml/manifesto/publisher",
       "mappings": [
         "http://purl.org/dc/terms/publisher"
+      ],
+      "exact_mappings": [
+        "http://def.isotc211.org/iso19115/-1/2014/CitationAndResponsiblePartyInformation/code/CI_RoleCode/publisher"
       ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "http://purl.org/dc/terms/publisher",
@@ -552,8 +636,19 @@
     {
       "name": "bytes",
       "definition_uri": "https://w3id.org/linkml/manifesto/bytes",
+      "aliases": [
+        "byte size",
+        "size in bytes"
+      ],
       "mappings": [
         "http://www.w3.org/ns/dcat#byteSize"
+      ],
+      "annotations": [
+        {
+          "tag": "unit",
+          "value": "UO:0000233",
+          "@type": "Annotation"
+        }
       ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "http://www.w3.org/ns/dcat#byteSize",
@@ -580,8 +675,22 @@
       "@type": "SlotDefinition"
     },
     {
+      "name": "isAccessibleForFree",
+      "definition_uri": "https://w3id.org/linkml/manifesto/isAccessibleForFree",
+      "mappings": [
+        "http://schema.org/isAccessibleForFree"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/isAccessibleForFree",
+      "range": "boolean",
+      "@type": "SlotDefinition"
+    },
+    {
       "name": "download_url",
       "definition_uri": "https://w3id.org/linkml/manifesto/download_url",
+      "aliases": [
+        "url"
+      ],
       "mappings": [
         "http://www.w3.org/ns/dcat#downloadURL"
       ],
@@ -606,6 +715,9 @@
       "mappings": [
         "http://purl.org/dc/terms/format"
       ],
+      "exact_mappings": [
+        "http://schema.org/encodingFormat"
+      ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "http://purl.org/dc/terms/format",
       "owner": "RulePostcondition",
@@ -619,6 +731,9 @@
     {
       "name": "compression",
       "definition_uri": "https://w3id.org/linkml/manifesto/compression",
+      "aliases": [
+        "compression type"
+      ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "https://w3id.org/linkml/manifesto/compression",
       "owner": "RulePostcondition",
@@ -644,6 +759,14 @@
     {
       "name": "hash",
       "definition_uri": "https://w3id.org/linkml/manifesto/hash",
+      "aliases": [
+        "checksum",
+        "digest"
+      ],
+      "narrow_mappings": [
+        "http://edamontology.org/data_2190",
+        "https://www.uniprot.org/core/checksum"
+      ],
       "notes": [
         "we recommend using a more specific slot such as sha256 or md5"
       ],
@@ -659,6 +782,13 @@
     {
       "name": "sha256",
       "definition_uri": "https://w3id.org/linkml/manifesto/sha256",
+      "aliases": [
+        "sha256 checksum",
+        "sha256 digest"
+      ],
+      "exact_mappings": [
+        "http://purl.obolibrary.org/obo/NCIT_C171276"
+      ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "is_a": "hash",
       "slot_uri": "https://w3id.org/linkml/manifesto/sha256",
@@ -672,6 +802,13 @@
     {
       "name": "md5",
       "definition_uri": "https://w3id.org/linkml/manifesto/md5",
+      "aliases": [
+        "md5 checksum",
+        "md5 digest"
+      ],
+      "narrow_mappings": [
+        "https://www.uniprot.org/core/md5Checksum"
+      ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "is_a": "hash",
       "slot_uri": "https://w3id.org/linkml/manifesto/md5",
@@ -762,11 +899,55 @@
       "name": "profile",
       "definition_uri": "https://w3id.org/linkml/manifesto/profile",
       "exact_mappings": [
-        "https://specs.frictionlessdata.io/profiles"
+        "https://specs.frictionlessdata.io/profile"
       ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "https://w3id.org/linkml/manifesto/profile",
       "range": "uriorcurie",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "funder",
+      "definition_uri": "https://w3id.org/linkml/manifesto/funder",
+      "mappings": [
+        "http://schema.org/funder"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/funder",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "includedInDataCatalog",
+      "definition_uri": "https://w3id.org/linkml/manifesto/includedInDataCatalog",
+      "mappings": [
+        "http://schema.org/includedInDataCatalog"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/includedInDataCatalog",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "temporalCoverage",
+      "definition_uri": "https://w3id.org/linkml/manifesto/temporalCoverage",
+      "mappings": [
+        "http://schema.org/temporalCoverage"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/temporalCoverage",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "spatialCoverage",
+      "definition_uri": "https://w3id.org/linkml/manifesto/spatialCoverage",
+      "mappings": [
+        "http://schema.org/spatialCoverage"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/spatialCoverage",
+      "range": "string",
       "@type": "SlotDefinition"
     },
     {
@@ -776,7 +957,8 @@
         "http://www.w3.org/ns/dcat#keyword"
       ],
       "exact_mappings": [
-        "http://schema.org/keywords"
+        "http://schema.org/keywords",
+        "http://purl.obolibrary.org/obo/IAO_0000630"
       ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "singular_name": "keyword",
@@ -804,6 +986,31 @@
       "@type": "SlotDefinition"
     },
     {
+      "name": "parent",
+      "definition_uri": "https://w3id.org/linkml/manifesto/parent",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "https://w3id.org/linkml/manifesto/parent",
+      "owner": "Information",
+      "domain_of": [
+        "Information"
+      ],
+      "range": "Information",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "alternate_parents",
+      "definition_uri": "https://w3id.org/linkml/manifesto/alternate_parents",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "https://w3id.org/linkml/manifesto/alternate_parents",
+      "multivalued": true,
+      "owner": "Information",
+      "domain_of": [
+        "Information"
+      ],
+      "range": "Information",
+      "@type": "SlotDefinition"
+    },
+    {
       "name": "resources",
       "definition_uri": "https://w3id.org/linkml/manifesto/resources",
       "mappings": [
@@ -825,8 +1032,20 @@
       "@type": "SlotDefinition"
     },
     {
+      "name": "hasPart",
+      "definition_uri": "https://w3id.org/linkml/manifesto/hasPart",
+      "mappings": [
+        "http://schema.org/hasPart"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://schema.org/hasPart",
+      "range": "DataPackage",
+      "@type": "SlotDefinition"
+    },
+    {
       "name": "test_roles",
       "definition_uri": "https://w3id.org/linkml/manifesto/test_roles",
+      "description": "if the resource is to be used in testing, this describes the role it places",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "https://w3id.org/linkml/manifesto/test_roles",
       "multivalued": true,
@@ -842,6 +1061,9 @@
       "definition_uri": "https://w3id.org/linkml/manifesto/created_by",
       "mappings": [
         "http://purl.org/pav/createdBy"
+      ],
+      "close_mappings": [
+        "http://schema.org/creator"
       ],
       "description": "agent that created the element",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
@@ -908,7 +1130,26 @@
       ],
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "http://purl.org/ontology/bibo/status",
+      "owner": "Information",
+      "domain_of": [
+        "Information"
+      ],
       "range": "uriorcurie",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "deprecated",
+      "definition_uri": "https://w3id.org/linkml/manifesto/deprecated",
+      "mappings": [
+        "http://www.w3.org/2002/07/owl#deprecated"
+      ],
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "http://www.w3.org/2002/07/owl#deprecated",
+      "owner": "Information",
+      "domain_of": [
+        "Information"
+      ],
+      "range": "boolean",
       "@type": "SlotDefinition"
     },
     {
@@ -918,7 +1159,8 @@
         "http://purl.org/dc/terms/license"
       ],
       "exact_mappings": [
-        "https://specs.frictionlessdata.io/licenses"
+        "https://specs.frictionlessdata.io/licenses",
+        "http://purl.obolibrary.org/obo/NCIT_C43611"
       ],
       "description": "license for the data",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
@@ -1101,6 +1343,19 @@
       "@type": "SlotDefinition"
     },
     {
+      "name": "rulePrecondition__has_content",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "https://w3id.org/linkml/manifesto/has_content",
+      "inlined": true,
+      "alias": "has_content",
+      "owner": "RulePrecondition",
+      "domain_of": [
+        "RulePrecondition"
+      ],
+      "range": "ContentCheck",
+      "@type": "SlotDefinition"
+    },
+    {
       "name": "rule__preconditions",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "slot_uri": "https://w3id.org/linkml/manifesto/preconditions",
@@ -1126,6 +1381,113 @@
         "Rule"
       ],
       "range": "RulePostcondition",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "contentCheck__contains_regexp",
+      "description": "regular expression to be matched, by default on a per line basis",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "https://w3id.org/linkml/manifesto/contains_regexp",
+      "alias": "contains_regexp",
+      "owner": "ContentCheck",
+      "domain_of": [
+        "ContentCheck"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "contentCheck__minimum_line_number",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "https://w3id.org/linkml/manifesto/minimum_line_number",
+      "alias": "minimum_line_number",
+      "owner": "ContentCheck",
+      "domain_of": [
+        "ContentCheck"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "contentCheck__maximum_line_number",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slot_uri": "https://w3id.org/linkml/manifesto/maximum_line_number",
+      "alias": "maximum_line_number",
+      "owner": "ContentCheck",
+      "domain_of": [
+        "ContentCheck"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataPackage_parent",
+      "definition_uri": "https://w3id.org/linkml/manifesto/parent",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "is_a": "parent",
+      "domain": "DataPackage",
+      "slot_uri": "https://w3id.org/linkml/manifesto/parent",
+      "alias": "parent",
+      "owner": "DataPackage",
+      "domain_of": [
+        "DataPackage"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "parent",
+      "range": "DataPackage",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataPackage_alternate_parents",
+      "definition_uri": "https://w3id.org/linkml/manifesto/alternate_parents",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "is_a": "alternate_parents",
+      "domain": "DataPackage",
+      "slot_uri": "https://w3id.org/linkml/manifesto/alternate_parents",
+      "multivalued": true,
+      "alias": "alternate_parents",
+      "owner": "DataPackage",
+      "domain_of": [
+        "DataPackage"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "alternate_parents",
+      "range": "DataPackage",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataResource_parent",
+      "definition_uri": "https://w3id.org/linkml/manifesto/parent",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "is_a": "parent",
+      "domain": "DataResource",
+      "slot_uri": "https://w3id.org/linkml/manifesto/parent",
+      "alias": "parent",
+      "owner": "DataResource",
+      "domain_of": [
+        "DataResource"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "parent",
+      "range": "DataResource",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataResource_alternate_parents",
+      "definition_uri": "https://w3id.org/linkml/manifesto/alternate_parents",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "is_a": "alternate_parents",
+      "domain": "DataResource",
+      "slot_uri": "https://w3id.org/linkml/manifesto/alternate_parents",
+      "multivalued": true,
+      "alias": "alternate_parents",
+      "owner": "DataResource",
+      "domain_of": [
+        "DataResource"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "alternate_parents",
+      "range": "DataResource",
       "@type": "SlotDefinition"
     }
   ],
@@ -1156,10 +1518,14 @@
         "issued",
         "created_by",
         "created_on",
+        "status",
+        "deprecated",
         "compression",
         "was_derived_from",
         "page",
-        "test_roles"
+        "test_roles",
+        "parent",
+        "alternate_parents"
       ],
       "slot_usage": {},
       "class_uri": "https://w3id.org/linkml/manifesto/Information",
@@ -1184,9 +1550,12 @@
         "dcat:Catalog"
       ],
       "description": "A collection of data resources",
+      "title": "data package",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "see_also": [
-        "https://specs.frictionlessdata.io/data-package"
+        "https://specs.frictionlessdata.io/data-package",
+        "https://github.com/ESIPFed/science-on-schema.org/blob/master/guides/Dataset.md",
+        "https://developers.google.com/search/docs/advanced/structured-data/dataset"
       ],
       "is_a": "Information",
       "slots": [
@@ -1205,12 +1574,16 @@
         "issued",
         "created_by",
         "created_on",
+        "status",
+        "deprecated",
         "compression",
         "was_derived_from",
         "page",
         "test_roles",
         "resources",
-        "rules"
+        "rules",
+        "DataPackage_parent",
+        "DataPackage_alternate_parents"
       ],
       "slot_usage": {},
       "class_uri": "http://rdfs.org/ns/void#Dataset",
@@ -1226,6 +1599,7 @@
         "schema:DataDownload"
       ],
       "description": "An individual file or table",
+      "title": "data resource",
       "from_schema": "https://w3id.org/linkml/data-manifesto",
       "see_also": [
         "https://specs.frictionlessdata.io/data-resource"
@@ -1245,6 +1619,8 @@
         "issued",
         "created_by",
         "created_on",
+        "status",
+        "deprecated",
         "compression",
         "was_derived_from",
         "page",
@@ -1259,7 +1635,9 @@
         "hash",
         "md5",
         "sha256",
-        "dialect"
+        "dialect",
+        "DataResource_parent",
+        "DataResource_alternate_parents"
       ],
       "slot_usage": {},
       "class_uri": "http://www.w3.org/ns/dcat#Distribution",
@@ -1326,7 +1704,8 @@
         "rulePrecondition__dirname_regexp",
         "rulePrecondition__path_regexp",
         "rulePrecondition__final_suffix",
-        "rulePrecondition__has_suffix"
+        "rulePrecondition__has_suffix",
+        "rulePrecondition__has_content"
       ],
       "slot_usage": {},
       "attributes": [
@@ -1348,6 +1727,11 @@
         },
         {
           "name": "has_suffix",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "has_content",
+          "range": "ContentCheck",
           "@type": "SlotDefinition"
         }
       ],
@@ -1379,13 +1763,44 @@
       ],
       "class_uri": "https://w3id.org/linkml/manifesto/Rule",
       "@type": "ClassDefinition"
+    },
+    {
+      "name": "ContentCheck",
+      "definition_uri": "https://w3id.org/linkml/manifesto/ContentCheck",
+      "description": "an object describing conditions that apply to the contents of a file",
+      "from_schema": "https://w3id.org/linkml/data-manifesto",
+      "slots": [
+        "contentCheck__contains_regexp",
+        "contentCheck__minimum_line_number",
+        "contentCheck__maximum_line_number"
+      ],
+      "slot_usage": {},
+      "attributes": [
+        {
+          "name": "contains_regexp",
+          "description": "regular expression to be matched, by default on a per line basis",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "minimum_line_number",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        },
+        {
+          "name": "maximum_line_number",
+          "range": "integer",
+          "@type": "SlotDefinition"
+        }
+      ],
+      "class_uri": "https://w3id.org/linkml/manifesto/ContentCheck",
+      "@type": "ClassDefinition"
     }
   ],
   "metamodel_version": "1.7.0",
   "source_file": "data_manifesto.yaml",
-  "source_file_date": "2022-03-22T10:06:20",
-  "source_file_size": 8822,
-  "generation_date": "2022-03-25T16:58:59",
+  "source_file_date": "2022-04-01T17:39:20",
+  "source_file_size": 12934,
+  "generation_date": "2022-04-01T17:40:14",
   "@type": "SchemaDefinition",
   "@context": [
     "generated/jsonld/data_manifesto.context.jsonld",

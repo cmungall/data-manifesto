@@ -1,3 +1,10 @@
+type ContentCheck
+  {
+    containsRegexp: String
+    minimumLineNumber: Integer
+    maximumLineNumber: Integer
+  }
+
 type DataPackage
   {
     name: String!
@@ -15,12 +22,16 @@ type DataPackage
     issued: Datetime
     createdBy: Uriorcurie
     createdOn: Datetime
+    status: Uriorcurie
+    deprecated: Boolean
     compression: CompressionTypeEnum
     wasDerivedFrom: String
     page: String
     testRoles: [TestRole]
     resources: [DataResource]
     rules: [Rule]
+    parent: DataPackage
+    alternateParents: [DataPackage]
   }
 
 type DataResource
@@ -38,6 +49,8 @@ type DataResource
     issued: Datetime
     createdBy: Uriorcurie
     createdOn: Datetime
+    status: Uriorcurie
+    deprecated: Boolean
     compression: CompressionTypeEnum
     wasDerivedFrom: String
     page: String
@@ -53,6 +66,8 @@ type DataResource
     md5: String
     sha256: String
     dialect: String
+    parent: DataResource
+    alternateParents: [DataResource]
   }
 
 type FormatDialect
@@ -81,10 +96,14 @@ interface Information
     issued: Datetime
     createdBy: Uriorcurie
     createdOn: Datetime
+    status: Uriorcurie
+    deprecated: Boolean
     compression: CompressionTypeEnum
     wasDerivedFrom: String
     page: String
     testRoles: [TestRole]
+    parent: Information
+    alternateParents: [Information]
   }
 
 type Rule
@@ -108,5 +127,6 @@ type RulePrecondition
     pathRegexp: String
     finalSuffix: String
     hasSuffix: String
+    hasContent: ContentCheck
   }
 

@@ -1,5 +1,5 @@
 # Auto generated from data_manifesto.yaml by pythongen.py version: 0.9.0
-# Generation date: 2022-03-25T16:59:04
+# Generation date: 2022-04-01T17:40:20
 # Schema: datasets
 #
 # id: https://w3id.org/linkml/data-manifesto
@@ -22,8 +22,8 @@ from linkml_runtime.utils.formatutils import camelcase, underscore, sfx
 from linkml_runtime.utils.enumerations import EnumDefinitionImpl
 from rdflib import Namespace, URIRef
 from linkml_runtime.utils.curienamespace import CurieNamespace
-from linkml_runtime.linkml_model.types import Datetime, Integer, String, Uri, Uriorcurie
-from linkml_runtime.utils.metamodelcore import URI, URIorCURIE, XSDDateTime
+from linkml_runtime.linkml_model.types import Boolean, Datetime, Integer, String, Uri, Uriorcurie
+from linkml_runtime.utils.metamodelcore import Bool, URI, URIorCURIE, XSDDateTime
 
 metamodel_version = "1.7.0"
 version = None
@@ -32,15 +32,21 @@ version = None
 dataclasses._init_fn = dataclasses_init_fn_with_kwargs
 
 # Namespaces
+IAO = CurieNamespace('IAO', 'http://purl.obolibrary.org/obo/IAO_')
+NCIT = CurieNamespace('NCIT', 'http://purl.obolibrary.org/obo/NCIT_')
+SIO = CurieNamespace('SIO', 'http://semanticscience.org/resource/SIO_')
+UO = CurieNamespace('UO', 'http://purl.obolibrary.org/obo/UO_')
 BALD = CurieNamespace('bald', 'https://www.opengis.net/def/binary-array-ld/')
 BIBO = CurieNamespace('bibo', 'http://purl.org/ontology/bibo/')
 CSVW = CurieNamespace('csvw', 'http://www.w3.org/ns/csvw#')
 DATASETS = CurieNamespace('datasets', 'https://w3id.org/linkml/manifesto/')
 DCAT = CurieNamespace('dcat', 'http://www.w3.org/ns/dcat#')
 DCTERMS = CurieNamespace('dcterms', 'http://purl.org/dc/terms/')
+EDAM = CurieNamespace('edam', 'http://edamontology.org/')
 FILE = CurieNamespace('file', 'file:///')
 FORMATS = CurieNamespace('formats', 'http://www.w3.org/ns/formats/')
 FRICTIONLESS = CurieNamespace('frictionless', 'https://specs.frictionlessdata.io/')
+ISO19115 = CurieNamespace('iso19115', 'http://def.isotc211.org/iso19115/-1/2014/CitationAndResponsiblePartyInformation/code/CI_RoleCode/')
 LINKML = CurieNamespace('linkml', 'https://w3id.org/linkml/')
 MEDIATYPES = CurieNamespace('mediatypes', 'https://www.iana.org/assignments/media-types/')
 OSLC = CurieNamespace('oslc', 'http://open-services.net/ns/core#')
@@ -52,6 +58,7 @@ RDFS = CurieNamespace('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
 SCHEMA = CurieNamespace('schema', 'http://schema.org/')
 SH = CurieNamespace('sh', 'https://w3id.org/shacl/')
 SKOS = CurieNamespace('skos', 'http://www.w3.org/2004/02/skos/core#')
+UPCORE = CurieNamespace('upcore', 'https://www.uniprot.org/core/')
 VOID = CurieNamespace('void', 'http://rdfs.org/ns/void#')
 XSD = CurieNamespace('xsd', 'http://www.w3.org/2001/XMLSchema#')
 DEFAULT_ = DATASETS
@@ -99,10 +106,14 @@ class Information(YAMLRoot):
     issued: Optional[Union[str, XSDDateTime]] = None
     created_by: Optional[Union[str, URIorCURIE]] = None
     created_on: Optional[Union[str, XSDDateTime]] = None
+    status: Optional[Union[str, URIorCURIE]] = None
+    deprecated: Optional[Union[bool, Bool]] = None
     compression: Optional[Union[str, "CompressionTypeEnum"]] = None
     was_derived_from: Optional[str] = None
     page: Optional[str] = None
     test_roles: Optional[Union[Union[str, "TestRole"], List[Union[str, "TestRole"]]]] = empty_list()
+    parent: Optional[Union[str, InformationName]] = None
+    alternate_parents: Optional[Union[Union[str, InformationName], List[Union[str, InformationName]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.name):
@@ -153,6 +164,12 @@ class Information(YAMLRoot):
         if self.created_on is not None and not isinstance(self.created_on, XSDDateTime):
             self.created_on = XSDDateTime(self.created_on)
 
+        if self.status is not None and not isinstance(self.status, URIorCURIE):
+            self.status = URIorCURIE(self.status)
+
+        if self.deprecated is not None and not isinstance(self.deprecated, Bool):
+            self.deprecated = Bool(self.deprecated)
+
         if self.compression is not None and not isinstance(self.compression, CompressionTypeEnum):
             self.compression = CompressionTypeEnum(self.compression)
 
@@ -165,6 +182,13 @@ class Information(YAMLRoot):
         if not isinstance(self.test_roles, list):
             self.test_roles = [self.test_roles] if self.test_roles is not None else []
         self.test_roles = [v if isinstance(v, TestRole) else TestRole(v) for v in self.test_roles]
+
+        if self.parent is not None and not isinstance(self.parent, InformationName):
+            self.parent = InformationName(self.parent)
+
+        if not isinstance(self.alternate_parents, list):
+            self.alternate_parents = [self.alternate_parents] if self.alternate_parents is not None else []
+        self.alternate_parents = [v if isinstance(v, InformationName) else InformationName(v) for v in self.alternate_parents]
 
         super().__post_init__(**kwargs)
 
@@ -184,6 +208,8 @@ class DataPackage(Information):
     name: Union[str, DataPackageName] = None
     resources: Optional[Union[Dict[Union[str, DataResourceName], Union[dict, "DataResource"]], List[Union[dict, "DataResource"]]]] = empty_dict()
     rules: Optional[Union[Union[dict, "Rule"], List[Union[dict, "Rule"]]]] = empty_list()
+    parent: Optional[Union[str, DataPackageName]] = None
+    alternate_parents: Optional[Union[Union[str, DataPackageName], List[Union[str, DataPackageName]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.name):
@@ -196,6 +222,13 @@ class DataPackage(Information):
         if not isinstance(self.rules, list):
             self.rules = [self.rules] if self.rules is not None else []
         self.rules = [v if isinstance(v, Rule) else Rule(**as_dict(v)) for v in self.rules]
+
+        if self.parent is not None and not isinstance(self.parent, DataPackageName):
+            self.parent = DataPackageName(self.parent)
+
+        if not isinstance(self.alternate_parents, list):
+            self.alternate_parents = [self.alternate_parents] if self.alternate_parents is not None else []
+        self.alternate_parents = [v if isinstance(v, DataPackageName) else DataPackageName(v) for v in self.alternate_parents]
 
         super().__post_init__(**kwargs)
 
@@ -224,6 +257,8 @@ class DataResource(Information):
     md5: Optional[str] = None
     sha256: Optional[str] = None
     dialect: Optional[str] = None
+    parent: Optional[Union[str, DataResourceName]] = None
+    alternate_parents: Optional[Union[Union[str, DataResourceName], List[Union[str, DataResourceName]]]] = empty_list()
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self._is_empty(self.name):
@@ -263,6 +298,13 @@ class DataResource(Information):
 
         if self.dialect is not None and not isinstance(self.dialect, str):
             self.dialect = str(self.dialect)
+
+        if self.parent is not None and not isinstance(self.parent, DataResourceName):
+            self.parent = DataResourceName(self.parent)
+
+        if not isinstance(self.alternate_parents, list):
+            self.alternate_parents = [self.alternate_parents] if self.alternate_parents is not None else []
+        self.alternate_parents = [v if isinstance(v, DataResourceName) else DataResourceName(v) for v in self.alternate_parents]
 
         super().__post_init__(**kwargs)
 
@@ -349,6 +391,7 @@ class RulePrecondition(YAMLRoot):
     path_regexp: Optional[str] = None
     final_suffix: Optional[str] = None
     has_suffix: Optional[str] = None
+    has_content: Optional[Union[dict, "ContentCheck"]] = None
 
     def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
         if self.basename_regexp is not None and not isinstance(self.basename_regexp, str):
@@ -365,6 +408,9 @@ class RulePrecondition(YAMLRoot):
 
         if self.has_suffix is not None and not isinstance(self.has_suffix, str):
             self.has_suffix = str(self.has_suffix)
+
+        if self.has_content is not None and not isinstance(self.has_content, ContentCheck):
+            self.has_content = ContentCheck(**as_dict(self.has_content))
 
         super().__post_init__(**kwargs)
 
@@ -393,6 +439,35 @@ class Rule(YAMLRoot):
         super().__post_init__(**kwargs)
 
 
+@dataclass
+class ContentCheck(YAMLRoot):
+    """
+    an object describing conditions that apply to the contents of a file
+    """
+    _inherited_slots: ClassVar[List[str]] = []
+
+    class_class_uri: ClassVar[URIRef] = DATASETS.ContentCheck
+    class_class_curie: ClassVar[str] = "datasets:ContentCheck"
+    class_name: ClassVar[str] = "ContentCheck"
+    class_model_uri: ClassVar[URIRef] = DATASETS.ContentCheck
+
+    contains_regexp: Optional[str] = None
+    minimum_line_number: Optional[int] = None
+    maximum_line_number: Optional[int] = None
+
+    def __post_init__(self, *_: List[str], **kwargs: Dict[str, Any]):
+        if self.contains_regexp is not None and not isinstance(self.contains_regexp, str):
+            self.contains_regexp = str(self.contains_regexp)
+
+        if self.minimum_line_number is not None and not isinstance(self.minimum_line_number, int):
+            self.minimum_line_number = int(self.minimum_line_number)
+
+        if self.maximum_line_number is not None and not isinstance(self.maximum_line_number, int):
+            self.maximum_line_number = int(self.maximum_line_number)
+
+        super().__post_init__(**kwargs)
+
+
 # Enumerations
 class DistributionLevel(EnumDefinitionImpl):
 
@@ -404,12 +479,19 @@ class DistributionLevel(EnumDefinitionImpl):
     )
 
 class TestRole(EnumDefinitionImpl):
-
-    Example = PermissibleValue(text="Example")
-    CounterExample = PermissibleValue(text="CounterExample")
+    """
+    describes the role an artefact plays for system testing or for informing humans
+    """
+    Example = PermissibleValue(text="Example",
+                                     description="intended as an informative example that shows an agent how to do something, and may be used in automated test suites")
+    CounterExample = PermissibleValue(text="CounterExample",
+                                                   description="intended as an informative example that shows an agent how NOT to do something, and may be used in automated test suites as negative data")
+    PerformanceTest = PermissibleValue(text="PerformanceTest",
+                                                     description="intended to be used for benchmarking or carrying out performance tests, for example, time and memory to process a resource")
 
     _defn = EnumDefinition(
         name="TestRole",
+        description="describes the role an artefact plays for system testing or for informing humans",
     )
 
 class MediaTypeEnum(EnumDefinitionImpl):
@@ -520,13 +602,19 @@ class slots:
 slots.name = Slot(uri=DCTERMS.identifier, name="name", curie=DCTERMS.curie('identifier'),
                    model_uri=DATASETS.name, domain=None, range=URIRef)
 
+slots.identifier = Slot(uri=SCHEMA.identifier, name="identifier", curie=SCHEMA.curie('identifier'),
+                   model_uri=DATASETS.identifier, domain=None, range=Optional[Union[str, List[str]]])
+
+slots.sameAs = Slot(uri=SCHEMA.sameAs, name="sameAs", curie=SCHEMA.curie('sameAs'),
+                   model_uri=DATASETS.sameAs, domain=None, range=Optional[str])
+
 slots.title = Slot(uri=DCTERMS.title, name="title", curie=DCTERMS.curie('title'),
                    model_uri=DATASETS.title, domain=None, range=Optional[str])
 
 slots.description = Slot(uri=DCTERMS.description, name="description", curie=DCTERMS.curie('description'),
                    model_uri=DATASETS.description, domain=None, range=Optional[str])
 
-slots.language = Slot(uri=DATASETS.language, name="language", curie=DATASETS.curie('language'),
+slots.language = Slot(uri=SCHEMA.inLanguage, name="language", curie=SCHEMA.curie('inLanguage'),
                    model_uri=DATASETS.language, domain=None, range=Optional[str])
 
 slots.publisher = Slot(uri=DCTERMS.publisher, name="publisher", curie=DCTERMS.curie('publisher'),
@@ -546,6 +634,9 @@ slots.bytes = Slot(uri=DCAT.byteSize, name="bytes", curie=DCAT.curie('byteSize')
 
 slots.path = Slot(uri=DATASETS.path, name="path", curie=DATASETS.curie('path'),
                    model_uri=DATASETS.path, domain=None, range=Optional[str])
+
+slots.isAccessibleForFree = Slot(uri=SCHEMA.isAccessibleForFree, name="isAccessibleForFree", curie=SCHEMA.curie('isAccessibleForFree'),
+                   model_uri=DATASETS.isAccessibleForFree, domain=None, range=Optional[Union[bool, Bool]])
 
 slots.download_url = Slot(uri=DCAT.downloadURL, name="download_url", curie=DCAT.curie('downloadURL'),
                    model_uri=DATASETS.download_url, domain=None, range=Optional[Union[str, URI]])
@@ -583,14 +674,35 @@ slots.conforms_to_class = Slot(uri=DATASETS.conforms_to_class, name="conforms_to
 slots.profile = Slot(uri=DATASETS.profile, name="profile", curie=DATASETS.curie('profile'),
                    model_uri=DATASETS.profile, domain=None, range=Optional[Union[str, URIorCURIE]])
 
+slots.funder = Slot(uri=SCHEMA.funder, name="funder", curie=SCHEMA.curie('funder'),
+                   model_uri=DATASETS.funder, domain=None, range=Optional[str])
+
+slots.includedInDataCatalog = Slot(uri=SCHEMA.includedInDataCatalog, name="includedInDataCatalog", curie=SCHEMA.curie('includedInDataCatalog'),
+                   model_uri=DATASETS.includedInDataCatalog, domain=None, range=Optional[str])
+
+slots.temporalCoverage = Slot(uri=SCHEMA.temporalCoverage, name="temporalCoverage", curie=SCHEMA.curie('temporalCoverage'),
+                   model_uri=DATASETS.temporalCoverage, domain=None, range=Optional[str])
+
+slots.spatialCoverage = Slot(uri=SCHEMA.spatialCoverage, name="spatialCoverage", curie=SCHEMA.curie('spatialCoverage'),
+                   model_uri=DATASETS.spatialCoverage, domain=None, range=Optional[str])
+
 slots.keywords = Slot(uri=DCAT.keyword, name="keywords", curie=DCAT.curie('keyword'),
                    model_uri=DATASETS.keywords, domain=None, range=Optional[Union[str, List[str]]])
 
 slots.themes = Slot(uri=DCAT.theme, name="themes", curie=DCAT.curie('theme'),
                    model_uri=DATASETS.themes, domain=None, range=Optional[Union[Union[str, URIorCURIE], List[Union[str, URIorCURIE]]]])
 
+slots.parent = Slot(uri=DATASETS.parent, name="parent", curie=DATASETS.curie('parent'),
+                   model_uri=DATASETS.parent, domain=None, range=Optional[Union[str, InformationName]])
+
+slots.alternate_parents = Slot(uri=DATASETS.alternate_parents, name="alternate_parents", curie=DATASETS.curie('alternate_parents'),
+                   model_uri=DATASETS.alternate_parents, domain=None, range=Optional[Union[Union[str, InformationName], List[Union[str, InformationName]]]])
+
 slots.resources = Slot(uri=DCAT.distribution, name="resources", curie=DCAT.curie('distribution'),
                    model_uri=DATASETS.resources, domain=None, range=Optional[Union[Dict[Union[str, DataResourceName], Union[dict, DataResource]], List[Union[dict, DataResource]]]])
+
+slots.hasPart = Slot(uri=SCHEMA.hasPart, name="hasPart", curie=SCHEMA.curie('hasPart'),
+                   model_uri=DATASETS.hasPart, domain=None, range=Optional[Union[str, DataPackageName]])
 
 slots.test_roles = Slot(uri=DATASETS.test_roles, name="test_roles", curie=DATASETS.curie('test_roles'),
                    model_uri=DATASETS.test_roles, domain=None, range=Optional[Union[Union[str, "TestRole"], List[Union[str, "TestRole"]]]])
@@ -609,6 +721,9 @@ slots.modified_by = Slot(uri=OSLC.modifiedBy, name="modified_by", curie=OSLC.cur
 
 slots.status = Slot(uri=BIBO.status, name="status", curie=BIBO.curie('status'),
                    model_uri=DATASETS.status, domain=None, range=Optional[Union[str, URIorCURIE]])
+
+slots.deprecated = Slot(uri=OWL.deprecated, name="deprecated", curie=OWL.curie('deprecated'),
+                   model_uri=DATASETS.deprecated, domain=None, range=Optional[Union[bool, Bool]])
 
 slots.license = Slot(uri=DCTERMS.license, name="license", curie=DCTERMS.curie('license'),
                    model_uri=DATASETS.license, domain=None, range=Optional[str])
@@ -652,8 +767,32 @@ slots.rulePrecondition__final_suffix = Slot(uri=DATASETS.final_suffix, name="rul
 slots.rulePrecondition__has_suffix = Slot(uri=DATASETS.has_suffix, name="rulePrecondition__has_suffix", curie=DATASETS.curie('has_suffix'),
                    model_uri=DATASETS.rulePrecondition__has_suffix, domain=None, range=Optional[str])
 
+slots.rulePrecondition__has_content = Slot(uri=DATASETS.has_content, name="rulePrecondition__has_content", curie=DATASETS.curie('has_content'),
+                   model_uri=DATASETS.rulePrecondition__has_content, domain=None, range=Optional[Union[dict, ContentCheck]])
+
 slots.rule__preconditions = Slot(uri=DATASETS.preconditions, name="rule__preconditions", curie=DATASETS.curie('preconditions'),
                    model_uri=DATASETS.rule__preconditions, domain=None, range=Optional[Union[Union[dict, RulePrecondition], List[Union[dict, RulePrecondition]]]])
 
 slots.rule__postconditions = Slot(uri=DATASETS.postconditions, name="rule__postconditions", curie=DATASETS.curie('postconditions'),
                    model_uri=DATASETS.rule__postconditions, domain=None, range=Optional[Union[Union[dict, RulePostcondition], List[Union[dict, RulePostcondition]]]])
+
+slots.contentCheck__contains_regexp = Slot(uri=DATASETS.contains_regexp, name="contentCheck__contains_regexp", curie=DATASETS.curie('contains_regexp'),
+                   model_uri=DATASETS.contentCheck__contains_regexp, domain=None, range=Optional[str])
+
+slots.contentCheck__minimum_line_number = Slot(uri=DATASETS.minimum_line_number, name="contentCheck__minimum_line_number", curie=DATASETS.curie('minimum_line_number'),
+                   model_uri=DATASETS.contentCheck__minimum_line_number, domain=None, range=Optional[int])
+
+slots.contentCheck__maximum_line_number = Slot(uri=DATASETS.maximum_line_number, name="contentCheck__maximum_line_number", curie=DATASETS.curie('maximum_line_number'),
+                   model_uri=DATASETS.contentCheck__maximum_line_number, domain=None, range=Optional[int])
+
+slots.DataPackage_parent = Slot(uri=DATASETS.parent, name="DataPackage_parent", curie=DATASETS.curie('parent'),
+                   model_uri=DATASETS.DataPackage_parent, domain=DataPackage, range=Optional[Union[str, DataPackageName]])
+
+slots.DataPackage_alternate_parents = Slot(uri=DATASETS.alternate_parents, name="DataPackage_alternate_parents", curie=DATASETS.curie('alternate_parents'),
+                   model_uri=DATASETS.DataPackage_alternate_parents, domain=DataPackage, range=Optional[Union[Union[str, DataPackageName], List[Union[str, DataPackageName]]]])
+
+slots.DataResource_parent = Slot(uri=DATASETS.parent, name="DataResource_parent", curie=DATASETS.curie('parent'),
+                   model_uri=DATASETS.DataResource_parent, domain=DataResource, range=Optional[Union[str, DataResourceName]])
+
+slots.DataResource_alternate_parents = Slot(uri=DATASETS.alternate_parents, name="DataResource_alternate_parents", curie=DATASETS.curie('alternate_parents'),
+                   model_uri=DATASETS.DataResource_alternate_parents, domain=DataResource, range=Optional[Union[Union[str, DataResourceName], List[Union[str, DataResourceName]]]])

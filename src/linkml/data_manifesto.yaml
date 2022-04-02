@@ -7,6 +7,9 @@ see_also:
   - https://specs.frictionlessdata.io/data-resource
   - https://www.w3.org/TR/void/
   - https://www.w3.org/TR/hcls-dataset/
+  - https://developers.google.com/search/docs/advanced/structured-data/dataset
+todos:
+  - switch to schema.org names as the default rather than frictionless
 
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -24,6 +27,13 @@ prefixes:
   bibo: http://purl.org/ontology/bibo/
   oslc: http://open-services.net/ns/core#
   bald: https://www.opengis.net/def/binary-array-ld/
+  IAO: http://purl.obolibrary.org/obo/IAO_
+  SIO: http://semanticscience.org/resource/SIO_
+  NCIT: http://purl.obolibrary.org/obo/NCIT_
+  UO: http://purl.obolibrary.org/obo/UO_
+  iso19115: http://def.isotc211.org/iso19115/-1/2014/CitationAndResponsiblePartyInformation/code/CI_RoleCode/
+  edam: http://edamontology.org/
+  upcore: https://www.uniprot.org/core/
   file: file:///
 
 default_prefix: datasets
@@ -70,12 +80,17 @@ classes:
 #      - modified
       - created_by
       - created_on
+      - status
+      - deprecated
       - compression
       - was_derived_from
       - page
       - test_roles
+      - parent
+      - alternate_parents
 
   DataPackage:
+    title: data package
     aliases:
       - dataset
       - file collection
@@ -90,12 +105,20 @@ classes:
       - dcat:Catalog
     see_also:
       - https://specs.frictionlessdata.io/data-package
+      - https://github.com/ESIPFed/science-on-schema.org/blob/master/guides/Dataset.md
+      - https://developers.google.com/search/docs/advanced/structured-data/dataset
     slots:
       - resources
       - rules
+    slot_usage:
+      parent:
+        range: DataPackage
+      alternate_parents:
+        range: DataPackage
 
     
   DataResource:
+    title: data resource
     is_a: Information
     description: An individual file or table
     class_uri: dcat:Distribution
@@ -115,6 +138,11 @@ classes:
       - md5
       - sha256
       - dialect
+    slot_usage:
+      parent:
+        range: DataResource
+      alternate_parents:
+        range: DataResource
 
   FormatDialect:
     description: Additional format information for a file
@@ -139,6 +167,9 @@ classes:
       path_regexp:
       final_suffix:
       has_suffix:
+      has_content:
+        range:
+          ContentCheck
 
   Rule:
     attributes:
@@ -148,6 +179,18 @@ classes:
       postconditions:
         range: RulePostcondition
         multivalued: true
+
+  ContentCheck:
+    description: an object describing conditions that apply to the contents of a file
+    attributes:
+      contains_regexp:
+        description: regular expression to be matched, by default on a per line basis
+      minimum_line_number:
+        range: integer
+#        ifabsent: "int(0)"  ## https://github.com/linkml/linkml/issues/675
+      maximum_line_number:
+        range: integer
+
 
 
 #==================================
@@ -161,20 +204,41 @@ slots:
     exact_mappings:
       - schema:name
 
+  identifier:
+    identifier: false
+    multivalued: true
+    slot_uri: schema:identifier
+    description: The identifier property represents any kind of identifier for any kind of Thing, such as ISBNs, GTIN codes, UUIDs etc. Schema.org provides dedicated properties for representing many of these, either as textual strings or as URL (URI) links. See background notes for more details.
+    exact_mappings:
+      - skos:related
+
+  sameAs:
+    slot_uri: schema:sameAs
+
   title:
     description: the official title of the element
     slot_uri: dcterms:title
+    exact_mappings:
+      - SIO:000185
+      - NCIT:C49802
+    close_mappings:
+      - rdfs:label
 
   description:
     description: human readable description of the information
     slot_uri: dcterms:description
+    exact_mappings:
+      - NCIT:C138990
 
   language:
     description: language in which the information is expressed
+    slot_uri: schema:inLanguage
     
   publisher:
     slot_uri: dcterms:publisher
     range: uriorcurie
+    exact_mappings:
+      -  iso19115:publisher
     
   issued:
     slot_uri: dcterms:issued
@@ -187,14 +251,25 @@ slots:
     slot_uri: csvw:dialect
 
   bytes:
+    aliases:
+      - byte size
+      - size in bytes
     range: integer
     slot_uri: dcat:byteSize
+    annotations:
+      unit: UO:0000233
 
   path:
     close_mappings:
       - frictionless:path
 
+  isAccessibleForFree:
+    slot_uri: schema:isAccessibleForFree
+    range: boolean
+
   download_url:
+    aliases:
+      - url
     range: uri
     slot_uri: dcat:downloadURL
     exact_mappings:
@@ -205,19 +280,41 @@ slots:
   format:
     range: string  ## TODO: Enum
     slot_uri: dcterms:format
+    exact_mappings:
+      - schema:encodingFormat
 
   compression:
+    aliases:
+      - compression type
     range: CompressionTypeEnum
 
   encoding:
   hash:
+    aliases:
+      - checksum
+      - digest
     notes:
       - we recommend using a more specific slot such as sha256 or md5
+    narrow_mappings:
+      - edam:data_2190  ## for sequences only
+      - upcore:checksum
+
   sha256:
     is_a: hash
+    aliases:
+      - sha256 checksum
+      - sha256 digest
+    exact_mappings:
+      - NCIT:C171276
+
   md5:
+    aliases:
+      - md5 checksum
+      - md5 digest
     is_a: hash
-    
+    narrow_mappings:
+      - upcore:md5Checksum
+
   media_type:
     #range: MediaTypeEnum
     range: string
@@ -246,7 +343,20 @@ slots:
   profile:
     range: uriorcurie
     exact_mappings:
-      - frictionless:profiles
+      - frictionless:profile
+
+  funder:
+    slot_uri: schema:funder
+
+  includedInDataCatalog:
+    slot_uri: schema:includedInDataCatalog
+
+  temporalCoverage:
+    slot_uri: schema:temporalCoverage
+    range: string
+
+  spatialCoverage:
+    slot_uri: schema:spatialCoverage
 
   keywords:
     singular_name: keyword
@@ -255,13 +365,21 @@ slots:
     slot_uri: dcat:keyword
     exact_mappings:
       - schema:keywords
+      - IAO:0000630
     
   themes:
     singular_name: theme
     multivalued: true
     range: uriorcurie
     slot_uri: dcat:theme
-    
+
+  parent:
+    range: Information
+    multivalued: false
+  alternate_parents:
+    range: Information
+    multivalued: true
+
   resources:
     multivalued: true
     range: DataResource
@@ -271,7 +389,12 @@ slots:
     exact_mappings:
       - schema:distribution
 
+  hasPart:
+    slot_uri: schema:hasPart
+    range: DataPackage
+
   test_roles:
+    description: if the resource is to be used in testing, this describes the role it places
     multivalued: true
     range: TestRole
     
@@ -279,6 +402,8 @@ slots:
     range: uriorcurie
     description: agent that created the element
     slot_uri: pav:createdBy
+    close_mappings:
+      - schema:creator   ## this takes an object as a range
 
   created_on:
     range: datetime
@@ -302,11 +427,16 @@ slots:
     examples:
       - value: "bibo:draft"
 
+  deprecated:
+    range: boolean
+    slot_uri: owl:deprecated
+
   license:
     description: license for the data
     slot_uri: dcterms:license
     exact_mappings:
       - frictionless:licenses
+      - NCIT:C43611
 
   version:
     description: particular version of schema
@@ -337,9 +467,14 @@ enums:
       SpecificVersion:
 
   TestRole:
+    description: describes the role an artefact plays for system testing or for informing humans
     permissible_values:
       Example:
+        description: intended as an informative example that shows an agent how to do something, and may be used in automated test suites
       CounterExample:
+        description: intended as an informative example that shows an agent how NOT to do something, and may be used in automated test suites as negative data
+      PerformanceTest:
+        description: intended to be used for benchmarking or carrying out performance tests, for example, time and memory to process a resource
 
   MediaTypeEnum:
     exact_mappings:
@@ -357,6 +492,8 @@ enums:
       BGZIP:
         
   FormatEnum:
+    exact_mappings:
+      - edam:format_1915
     permissible_values:
       JSON-LD:
         meaning: formats:JSON-LD

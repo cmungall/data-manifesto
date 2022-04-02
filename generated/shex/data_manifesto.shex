@@ -2,12 +2,15 @@ BASE <https://w3id.org/linkml/manifesto/>
 PREFIX csvw: <http://www.w3.org/ns/csvw#>
 PREFIX dcat: <http://www.w3.org/ns/dcat#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX void: <http://rdfs.org/ns/void#>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX linkml: <https://w3id.org/linkml/>
 PREFIX pav: <http://purl.org/pav/>
+PREFIX schema1: <http://schema.org/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
 
 
 linkml:String xsd:string
@@ -38,11 +41,22 @@ linkml:Objectidentifier IRI
 
 linkml:Nodeidentifier NONLITERAL
 
+<ContentCheck> CLOSED {
+    (  $<ContentCheck_tes> (  <contains_regexp> @linkml:String ? ;
+          <minimum_line_number> @linkml:Integer ? ;
+          <maximum_line_number> @linkml:Integer ?
+       ) ;
+       rdf:type [ <ContentCheck> ] ?
+    )
+}
+
 <DataPackage> CLOSED {
     (  $<DataPackage_tes> (  &<Information_tes> ;
           rdf:type [ <Information> ] ? ;
           dcat:distribution @<DataResource> * ;
-          <rules> @<Rule> *
+          <rules> @<Rule> * ;
+          <parent> @<DataPackage> ? ;
+          <alternate_parents> @<DataPackage> *
        ) ;
        rdf:type [ void:Dataset ]
     )
@@ -59,7 +73,9 @@ linkml:Nodeidentifier NONLITERAL
           <hash> @linkml:String ? ;
           <md5> @linkml:String ? ;
           <sha256> @linkml:String ? ;
-          csvw:dialect @linkml:String ?
+          csvw:dialect @linkml:String ? ;
+          <parent> @<DataResource> ? ;
+          <alternate_parents> @<DataResource> *
        ) ;
        rdf:type [ dcat:Distribution ]
     )
@@ -89,16 +105,20 @@ linkml:Nodeidentifier NONLITERAL
           <conforms_to_schema> @linkml:Uriorcurie ? ;
           <conforms_to_class> @linkml:Uriorcurie ? ;
           pav:version @linkml:String ? ;
-          <language> @linkml:String ? ;
+          schema1:inLanguage @linkml:String ? ;
           dcterms:publisher @linkml:Uriorcurie ? ;
           dcat:keyword @linkml:String * ;
           dcterms:issued @linkml:Datetime ? ;
           pav:createdBy @linkml:Uriorcurie ? ;
           pav:createdOn @linkml:Datetime ? ;
+          bibo:status @linkml:Uriorcurie ? ;
+          owl:deprecated @linkml:Boolean ? ;
           <compression> @<CompressionTypeEnum> ? ;
           prov:wasDerivedFrom @linkml:String ? ;
           dcat:landingPage @linkml:String ? ;
-          <test_roles> @<TestRole> *
+          <test_roles> @<TestRole> * ;
+          <parent> @<Information> ? ;
+          <alternate_parents> @<Information> *
        ) ;
        rdf:type [ <Information> ]
     )
@@ -127,7 +147,8 @@ linkml:Nodeidentifier NONLITERAL
           <dirname_regexp> @linkml:String ? ;
           <path_regexp> @linkml:String ? ;
           <final_suffix> @linkml:String ? ;
-          <has_suffix> @linkml:String ?
+          <has_suffix> @linkml:String ? ;
+          <has_content> @<ContentCheck> ?
        ) ;
        rdf:type [ <RulePrecondition> ] ?
     )
